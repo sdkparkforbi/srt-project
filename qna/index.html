@@ -147,7 +147,7 @@
         <input id="q2" type="text" placeholder="말하거나 입력하세요…" autocomplete="off" disabled />
         <button id="send2" onclick="askAvatar()" disabled>보내기</button>
       </div>
-      <div class="disclaimer">🎤 버튼을 누르고 말하면 아바타가 음성으로 답해요. 글로 입력해도 됩니다. (연결 약 10초)</div>
+      <div class="disclaimer">🎤를 한 번 누르면 <b>연속 대화 모드</b> — 말하면 답하고, 답이 끝나면 자동으로 다시 들어요. 멈추려면 ⏹를 누르세요. 글로 입력해도 됩니다. (연결 약 10초)</div>
     </div>
   </section>
 </div>
@@ -178,6 +178,7 @@ function chat(message){
 // ================= 탭 =================
 function switchTab(which){
   if(which!=='sts' && stsActive) stopSTS();
+  if(which!=='ftf' && convMode) stopConv();
   ['ttt','sts','ftf'].forEach(function(m){
     var t=document.getElementById('tab'+m.charAt(0).toUpperCase()+m.slice(1));
     var p=document.getElementById('panel'+m.charAt(0).toUpperCase()+m.slice(1));
@@ -329,7 +330,9 @@ function startSession(){
     });
     room.on(LK.RoomEvent.DataReceived,function(payload){
       try{ var evt=JSON.parse(new TextDecoder().decode(payload)); var t=evt.event_type||evt.type||'';
-        if(t==='avatar.speak_started')setStatus('speaking'); if(t==='avatar.speak_ended')setStatus('ready'); }catch(e){} });
+        if(t==='avatar.speak_started')setStatus('speaking');
+        if(t==='avatar.speak_ended'){ setStatus('ready'); if(convMode&&!listening&&!awaitingReply) setTimeout(startListen,500); }
+      }catch(e){} });
     room.on(LK.RoomEvent.Disconnected,function(){ teardown(false); });
     return room.connect(session.livekit_url,session.livekit_client_token);
   })
@@ -353,39 +356,49 @@ function teardown(callStop){ stopKeepAlive();
   if(greetingTimer){clearTimeout(greetingTimer);greetingTimer=null;} stopCountdown();
   try{ if(room)room.disconnect(); }catch(e){} room=null; session=null; ready=false; starting=false;
   document.getElementById('q2').disabled=true; document.getElementById('send2').disabled=true; document.getElementById('mic2').disabled=true;
-  try{ if(recog)recog.stop(); }catch(e){} listening=false; setMicUI(false);
+  convMode=false; awaitingReply=false; try{ if(recog)recog.stop(); }catch(e){} listening=false; setMicUI(false);
   setStatus(null); setCaption(''); setOverlay(true,'아바타와 얼굴을 보며 대화해요'); }
 
 // 아바타 모드: 음성 입력(Web Speech API) → 두뇌 → 아바타 발화
-var recog=null, listening=false;
-function setMicUI(on){ var b=document.getElementById('mic2'); if(b)b.classList.toggle('rec',on); }
+// 연속 대화 모드: 🎤 한 번 → 말하면 답하고, 답이 끝나면 자동으로 다시 듣기 (다시 누르면 종료)
+var recog=null, listening=false, convMode=false, awaitingReply=false;
+function setMicUI(on){ var b=document.getElementById('mic2'); if(b){ b.classList.toggle('rec',on); b.title=on?'대화 종료':'음성으로 말하기'; b.textContent=on?'⏹':'🎤'; } }
 function toggleMic(){
   if(!ready){ setCaption('먼저 "아바타 시작"을 눌러 연결해 주세요.'); return; }
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){ setCaption('이 브라우저는 음성 인식을 지원하지 않아요. 크롬에서 쓰거나 글로 입력해 주세요.'); return; }
-  if(listening){ try{recog&&recog.stop();}catch(e){} return; }
+  if(convMode){ stopConv('대화를 마쳤어요. 🎤를 누르면 다시 시작해요.'); return; }
+  convMode=true; setMicUI(true); startListen();
+}
+function stopConv(msg){ convMode=false; awaitingReply=false; try{recog&&recog.stop();}catch(e){} listening=false; setMicUI(false); if(msg)setCaption(msg); }
+function startListen(){
+  if(!convMode||!ready||listening||awaitingReply) return;
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   recog=new SR(); recog.lang='ko-KR'; recog.interimResults=true; recog.maxAlternatives=1; recog.continuous=false;
-  var finalText='', lastShown='', submitted=false;
-  function submitVoice(q){
-    if(submitted) return; q=(q||'').trim(); if(!q){ setCaption('잘 못 들었어요. 다시 말씀해 주세요.'); return; }
-    submitted=true; setCaption('나: '+q); setStatus('speaking');
-    chat(q).then(function(d){ var r=(d&&d.reply)||'잘 못 알아들었어요.'; setCaption('리포: '+r); speak((d&&(d.ttsReply||d.reply))||r,false); })
-      .catch(function(){ var er='연결 문제로 답하지 못했어요. 다시 말씀해 주세요.'; setCaption(er); speak(er,false); });
-  }
-  listening=true; setMicUI(true); setCaption('🎤 듣고 있어요… 말씀하세요');
+  var finalText='', lastShown='';
+  listening=true; setCaption('🎤 듣고 있어요… 말씀하세요');
   recog.onresult=function(e){
     var interim='';
     for(var i=e.resultIndex;i<e.results.length;i++){
       if(e.results[i].isFinal) finalText+=e.results[i][0].transcript; else interim+=e.results[i][0].transcript;
     }
-    lastShown=(finalText+interim).trim();
-    if(lastShown) setCaption('나: '+lastShown);
+    lastShown=(finalText+interim).trim(); if(lastShown) setCaption('나: '+lastShown);
   };
-  recog.onerror=function(ev){ listening=false; setMicUI(false);
-    setCaption(ev.error==='not-allowed'?'마이크 권한을 허용해 주세요.':(ev.error==='no-speech'?'소리가 안 들렸어요. 🎤를 다시 눌러 말씀해 주세요.':'음성 인식 오류: '+ev.error)); };
-  // 인식이 끝나면(말 멈춤) 최종 문장으로 확실히 제출 — final 이벤트 누락 대비
-  recog.onend=function(){ listening=false; setMicUI(false); submitVoice(finalText || lastShown); };
-  try{ recog.start(); }catch(e){ listening=false; setMicUI(false); setCaption('마이크를 시작할 수 없어요: '+e.message); }
+  recog.onerror=function(ev){ listening=false;
+    if(ev.error==='no-speech'){ if(convMode) setTimeout(startListen,300); return; }
+    if(ev.error==='not-allowed'){ stopConv('마이크 권한을 허용해 주세요.'); return; }
+    if(convMode) setTimeout(startListen,500); };
+  recog.onend=function(){ listening=false; var q=(finalText||lastShown).trim();
+    if(q) handleVoice(q); else if(convMode) setTimeout(startListen,300); };
+  try{ recog.start(); }catch(e){ listening=false; if(convMode) setTimeout(startListen,500); }
+}
+function handleVoice(q){
+  awaitingReply=true; setCaption('나: '+q); setStatus('speaking');
+  chat(q).then(function(d){ var r=(d&&d.reply)||'잘 못 알아들었어요.'; setCaption('리포: '+r);
+    speak((d&&(d.ttsReply||d.reply))||r,false); awaitingReply=false;
+    // 발화 종료(avatar.speak_ended) 시 자동 재청취. 이벤트 누락 대비 안전 타이머도 가동.
+    if(convMode) setTimeout(function(){ if(convMode&&!listening) startListen(); }, 14000);
+  }).catch(function(){ awaitingReply=false; setCaption('연결 문제로 답하지 못했어요. 다시 말씀해 주세요.'); if(convMode) setTimeout(startListen,800); });
 }
 
 // 아바타 모드: 사용자 질문 → openai-chat.php 두뇌 → 아바타가 발화
