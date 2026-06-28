@@ -160,17 +160,17 @@ var TOKEN_URL   = './token.php';
 var SESSION_URL = './session.php';
 var LK = window.LivekitClient || window.LiveKit || window.livekit;
 
-var history = [];
+var chatHist = [];
 function esc(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
 
 // OpenAI 답변 받기 (TTT/FTF 공용 두뇌)
 function chat(message){
-  history.push({role:'user',content:message});
+  chatHist.push({role:'user',content:message});
   return fetch(CHAT_URL,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({message:message,history:history.slice(0,-1)})})
+    body:JSON.stringify({message:message,history:chatHist.slice(0,-1)})})
     .then(function(r){return r.json();})
     .then(function(d){
-      if(d && d.reply){ history.push({role:'assistant',content:d.reply}); }
+      if(d && d.reply){ chatHist.push({role:'assistant',content:d.reply}); }
       return d;
     });
 }
@@ -300,7 +300,7 @@ var countdownTimer=null, CONNECT_ESTIMATE=12;
 function startCountdown(total){ stopCountdown(); var left=total; overlayCount.textContent='약 '+left+'초'; overlayCount.classList.add('show');
   countdownTimer=setInterval(function(){left--; if(left>0){overlayCount.textContent='약 '+left+'초';}else{overlayCount.textContent='거의 다 됐어요'; clearInterval(countdownTimer); countdownTimer=null;}},1000); }
 function stopCountdown(){ if(countdownTimer){clearInterval(countdownTimer);countdownTimer=null;} overlayCount.textContent=''; overlayCount.classList.remove('show'); }
-function setStatus(state){ if(!state){statusEl.classList.remove('show');return;} statusEl.classList.add('show'); statusEl.classList.toggle('speaking',state==='speaking'); statusText.textContent=state==='speaking'?'말하는 중':'준비됨'; }
+function setStatus(state){ if(!state){statusEl.classList.remove('show');return;} statusEl.classList.add('show'); statusEl.classList.toggle('speaking',state==='speaking'||state==='thinking'); statusText.textContent=state==='speaking'?'말하는 중':(state==='thinking'?'생각 중':(state==='listening'?'듣는 중':'준비됨')); }
 function uuid(){ if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=(Math.random()*16)|0;var v=c==='x'?r:(r&0x3)|0x8;return v.toString(16);}); }
 
@@ -376,7 +376,7 @@ function startListen(){
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   recog=new SR(); recog.lang='ko-KR'; recog.interimResults=true; recog.maxAlternatives=1; recog.continuous=false;
   var finalText='', lastShown='';
-  listening=true; setCaption('🎤 듣고 있어요… 말씀하세요');
+  listening=true; setStatus('listening'); setCaption('🎤 듣고 있어요… 말씀하세요');
   recog.onresult=function(e){
     var interim='';
     for(var i=e.resultIndex;i<e.results.length;i++){
@@ -393,7 +393,7 @@ function startListen(){
   try{ recog.start(); }catch(e){ listening=false; if(convMode) setTimeout(startListen,500); }
 }
 function handleVoice(q){
-  awaitingReply=true; setCaption('나: '+q+'  —  🤔 리포가 생각하고 있어요…'); setStatus('speaking');
+  awaitingReply=true; setCaption('나: '+q+'  —  🤔 리포가 생각하고 있어요…'); setStatus('thinking');
   var timed=false, to=setTimeout(function(){ timed=true; setCaption('⏱ 응답이 늦어요(네트워크 확인). 잠시 후 다시 말씀해 주세요.'); awaitingReply=false; if(convMode) setTimeout(startListen,1000); }, 25000);
   chat(q).then(function(d){ if(timed)return; clearTimeout(to);
     var r=(d&&d.reply)||((d&&d.error)?('오류: '+d.error):'(빈 응답)'); setCaption('리포: '+r);
