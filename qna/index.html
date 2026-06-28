@@ -51,8 +51,10 @@
   .inbar button:disabled{opacity:.5;cursor:default}
   /* 아바타 */
   #ftf{position:relative;flex:1;background:#0b1220;display:flex;flex-direction:column}
-  #stage{position:relative;height:clamp(240px,38vh,340px);background:radial-gradient(circle at 50% 35%,#16233a,#0b1220);display:grid;place-items:center;overflow:hidden}
-  #video{max-width:96%;max-height:96%;width:auto;height:auto;object-fit:contain;border-radius:12px}
+  #stage{position:relative;height:clamp(180px,26vh,250px);background:radial-gradient(circle at 50% 35%,#16233a,#0b1220);display:grid;place-items:center;overflow:hidden}
+  #video{max-width:min(92%,300px);max-height:96%;width:auto;height:auto;object-fit:contain;border-radius:12px}
+  #caption{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.82));color:#fff;padding:24px 16px 12px;font-size:.92rem;line-height:1.5;text-align:center;display:none}
+  #caption.show{display:block}
   #overlay{position:absolute;inset:0;background:rgba(11,18,32,.92);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px}
   #overlay.hidden{display:none}
   #overlay .big{font-size:3rem}
@@ -79,14 +81,6 @@
       <a class="home" href="../index.html">← 프로젝트 홈</a>
     </div>
   </header>
-
-  <details class="introvid" open>
-    <summary>📺 1분 안내 영상 — 리포가 SRT를 설명해요 (접기/펼치기)</summary>
-    <video controls preload="metadata" playsinline poster="../assets/project_thumb.png">
-      <source src="../srt_intro.mp4" type="video/mp4" />
-      브라우저가 영상을 지원하지 않아요.
-    </video>
-  </details>
 
   <div class="tabs">
     <button id="tabTtt" class="on" onclick="switchTab('ttt')">💬 글로 묻기</button>
@@ -116,6 +110,7 @@
           <div id="count"></div>
           <button class="startbtn" id="startBtn" onclick="startSession()">아바타 시작</button>
         </div>
+        <div id="caption"></div>
       </div>
       <div class="inbar">
         <input id="q2" type="text" placeholder="아바타에게 물어보세요…" autocomplete="off" disabled />
@@ -201,7 +196,9 @@ var keepAliveTimer=null, pendingSpeaks=[], greetingFired=false, greetingTimer=nu
 var videoEl=document.getElementById('video');
 var overlay=document.getElementById('overlay'), overlayMsg=document.getElementById('overlayMsg'), overlayCount=document.getElementById('count');
 var statusEl=document.getElementById('status'), statusText=document.getElementById('statusText');
+var captionEl=document.getElementById('caption');
 
+function setCaption(text){ if(!text){captionEl.classList.remove('show');captionEl.textContent='';return;} captionEl.textContent=text; captionEl.classList.add('show'); }
 function setOverlay(show,msg){ if(msg)overlayMsg.textContent=msg; overlay.classList.toggle('hidden',!show); }
 var countdownTimer=null, CONNECT_ESTIMATE=12;
 function startCountdown(total){ stopCountdown(); var left=total; overlayCount.textContent='약 '+left+'초'; overlayCount.classList.add('show');
@@ -249,7 +246,7 @@ function onAvatarVisible(){
   document.getElementById('q2').disabled=false; document.getElementById('send2').disabled=false;
   if(pendingSpeaks.length){ setTimeout(flushPending,600); return; }
   if(!greetingFired){ greetingTimer=setTimeout(function(){ if(greetingFired)return; greetingFired=true;
-    sendSpeak('안녕하세요, SRT 연구를 안내하는 리포예요. 무엇이든 물어보세요.'); },1500); }
+    var g='안녕하세요, SRT 연구를 안내하는 리포예요. 무엇이든 물어보세요.'; setCaption(g); sendSpeak(g); },1500); }
 }
 function startKeepAlive(){ stopKeepAlive(); keepAliveTimer=setInterval(function(){ if(!session)return;
   fetch(SESSION_URL,{method:'POST',headers:{'Content-Type':'application/json'},
@@ -261,14 +258,14 @@ function teardown(callStop){ stopKeepAlive();
   if(greetingTimer){clearTimeout(greetingTimer);greetingTimer=null;} stopCountdown();
   try{ if(room)room.disconnect(); }catch(e){} room=null; session=null; ready=false; starting=false;
   document.getElementById('q2').disabled=true; document.getElementById('send2').disabled=true;
-  setStatus(null); setOverlay(true,'아바타와 얼굴을 보며 대화해요'); }
+  setStatus(null); setCaption(''); setOverlay(true,'아바타와 얼굴을 보며 대화해요'); }
 
 // 아바타 모드: 사용자 질문 → openai-chat.php 두뇌 → 아바타가 발화
 function askAvatar(){
   var inp=document.getElementById('q2'); var msg=inp.value.trim(); if(!msg)return;
-  inp.value=''; setStatus('speaking');
-  chat(msg).then(function(d){ speak((d&&(d.ttsReply||d.reply))||'잘 못 알아들었어요.',false); })
-    .catch(function(){ speak('연결에 문제가 있었어요. 다시 물어봐 주세요.',false); });
+  inp.value=''; setStatus('speaking'); setCaption('…');
+  chat(msg).then(function(d){ var r=(d&&d.reply)||'잘 못 알아들었어요.'; setCaption(r); speak((d&&(d.ttsReply||d.reply))||r,false); })
+    .catch(function(){ var e='연결에 문제가 있었어요. 다시 물어봐 주세요.'; setCaption(e); speak(e,false); });
 }
 document.getElementById('q2').addEventListener('keydown',function(e){if(e.key==='Enter')askAvatar();});
 window.addEventListener('beforeunload',function(){ teardown(true); });
