@@ -49,6 +49,8 @@
   .inbar input:focus{border-color:var(--navy)}
   .inbar button{border:0;background:var(--navy);color:#fff;border-radius:22px;padding:0 18px;font-size:.95rem;font-family:inherit;cursor:pointer}
   .inbar button:disabled{opacity:.5;cursor:default}
+  .micbtn{border:0;background:#0f766e;color:#fff;border-radius:50%;width:44px;min-width:44px;height:44px;font-size:1.15rem;cursor:pointer;padding:0}
+  .micbtn.rec{background:#c0392c;animation:vbreath 1s ease-in-out infinite}
   /* 아바타 */
   #ftf{position:relative;flex:1;background:#0b1220;display:flex;flex-direction:column}
   #stage{position:relative;height:clamp(380px,58vh,540px);background:radial-gradient(circle at 50% 38%,#16233a,#0b1220);display:grid;place-items:center;overflow:hidden}
@@ -141,10 +143,11 @@
       </div>
       <div id="caption"></div>
       <div class="inbar">
-        <input id="q2" type="text" placeholder="아바타에게 물어보세요…" autocomplete="off" disabled />
-        <button id="send2" onclick="askAvatar()" disabled>말하기</button>
+        <button id="mic2" class="micbtn" onclick="toggleMic()" disabled title="음성으로 말하기">🎤</button>
+        <input id="q2" type="text" placeholder="말하거나 입력하세요…" autocomplete="off" disabled />
+        <button id="send2" onclick="askAvatar()" disabled>보내기</button>
       </div>
-      <div class="disclaimer">아바타 연결에는 마이크/카메라 권한이 필요 없어요. 약 10초 정도 걸려요.</div>
+      <div class="disclaimer">🎤 버튼을 누르고 말하면 아바타가 음성으로 답해요. 글로 입력해도 됩니다. (연결 약 10초)</div>
     </div>
   </section>
 </div>
@@ -335,7 +338,7 @@ function startSession(){
 }
 function onAvatarVisible(){
   if(ready)return; ready=true; starting=false; stopCountdown(); setOverlay(false); setStatus('ready');
-  document.getElementById('q2').disabled=false; document.getElementById('send2').disabled=false;
+  document.getElementById('q2').disabled=false; document.getElementById('send2').disabled=false; document.getElementById('mic2').disabled=false;
   if(pendingSpeaks.length){ setTimeout(flushPending,600); return; }
   if(!greetingFired){ greetingTimer=setTimeout(function(){ if(greetingFired)return; greetingFired=true;
     var g='안녕하세요, SRT 연구를 안내하는 리포예요. 무엇이든 물어보세요.'; setCaption(g); sendSpeak(g); },1500); }
@@ -349,8 +352,33 @@ function teardown(callStop){ stopKeepAlive();
     body:JSON.stringify({action:'stop',session_id:session.session_id,reason:'USER_CLOSED'})}).catch(function(){}); }
   if(greetingTimer){clearTimeout(greetingTimer);greetingTimer=null;} stopCountdown();
   try{ if(room)room.disconnect(); }catch(e){} room=null; session=null; ready=false; starting=false;
-  document.getElementById('q2').disabled=true; document.getElementById('send2').disabled=true;
+  document.getElementById('q2').disabled=true; document.getElementById('send2').disabled=true; document.getElementById('mic2').disabled=true;
+  try{ if(recog)recog.stop(); }catch(e){} listening=false; setMicUI(false);
   setStatus(null); setCaption(''); setOverlay(true,'아바타와 얼굴을 보며 대화해요'); }
+
+// 아바타 모드: 음성 입력(Web Speech API) → 두뇌 → 아바타 발화
+var recog=null, listening=false;
+function setMicUI(on){ var b=document.getElementById('mic2'); if(b)b.classList.toggle('rec',on); }
+function toggleMic(){
+  if(!ready){ setCaption('먼저 "아바타 시작"을 눌러 연결해 주세요.'); return; }
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ setCaption('이 브라우저는 음성 인식을 지원하지 않아요. 크롬에서 쓰거나 글로 입력해 주세요.'); return; }
+  if(listening){ try{recog&&recog.stop();}catch(e){} return; }
+  recog=new SR(); recog.lang='ko-KR'; recog.interimResults=true; recog.maxAlternatives=1; recog.continuous=false;
+  listening=true; setMicUI(true); setCaption('🎤 듣고 있어요… 말씀하세요');
+  recog.onresult=function(e){
+    var t=''; for(var i=0;i<e.results.length;i++) t+=e.results[i][0].transcript;
+    setCaption('나: '+t);
+    if(e.results[e.results.length-1].isFinal){
+      var q=t.trim(); listening=false; setMicUI(false);
+      if(q){ setStatus('speaking'); chat(q).then(function(d){ var r=(d&&d.reply)||'잘 못 알아들었어요.'; setCaption(r); speak((d&&(d.ttsReply||d.reply))||r,false); })
+        .catch(function(){ var er='연결에 문제가 있었어요. 다시 말씀해 주세요.'; setCaption(er); speak(er,false); }); }
+    }
+  };
+  recog.onerror=function(ev){ listening=false; setMicUI(false); setCaption(ev.error==='not-allowed'?'마이크 권한을 허용해 주세요.':'음성 인식 오류: '+ev.error); };
+  recog.onend=function(){ listening=false; setMicUI(false); };
+  try{ recog.start(); }catch(e){ listening=false; setMicUI(false); }
+}
 
 // 아바타 모드: 사용자 질문 → openai-chat.php 두뇌 → 아바타가 발화
 function askAvatar(){
