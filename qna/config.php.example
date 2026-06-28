@@ -1,0 +1,7 @@
+<?php
+// config.php.example — 실제 서버에서는 config.php 로 복사하고 키를 채워넣으세요.
+//   cp config.php.example config.php  &&  vi config.php
+// config.php 는 절대 git/공개 저장소에 커밋하지 마세요. 권한은 640(소유 user2, 그룹 apache) 권장.
+$OPENAI_API_KEY     = 'YOUR_OPENAI_API_KEY_HERE';   // TTT/FTF 텍스트 — gpt-4o-mini
+$LIVEAVATAR_API_KEY = 'YOUR_LIVEAVATAR_API_KEY_HERE'; // FTF 아바타 — api.liveavatar.com
+$LIVEAVATAR_VOICE_ID = 'YOUR_VOICE_ID_HERE';          // 아바타 음성 ID (이 아바타는 필수)

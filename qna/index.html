@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SRT 안내소 — AI 안내봇 리포</title>
+<meta name="description" content="중요위험이전(SRT) 합성증권화 연구를 쉬운 말로 설명하는 AI 안내봇. 글로 묻거나 아바타와 얼굴 보며 대화하세요." />
+<meta property="og:title" content="SRT 안내소 — AI 안내봇 리포" />
+<meta property="og:description" content="중요위험이전(SRT) 합성증권화 연구를 쉬운 말로 설명하는 AI 안내봇." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://aiforalab.com/srt/qna/" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+<!-- LiveKit JS SDK (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+<style>
+  :root{--navy:#1d3b6e;--navy2:#16305c;--teal:#0f766e;--ink:#1f2733;--soft:#5d6675;--line:#e3e7ec;--bg:#eef1f5}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.7}
+  .wrap{max-width:760px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 1px 40px rgba(20,30,50,.08);display:flex;flex-direction:column}
+  header{background:linear-gradient(150deg,var(--navy),var(--navy2));color:#fff;padding:22px clamp(18px,4vw,40px)}
+  header .top{display:flex;align-items:center;gap:12px}
+  header .ava{width:46px;height:46px;border-radius:50%;background:#fff2;display:grid;place-items:center;font-size:1.5rem}
+  header h1{margin:0;font-size:1.15rem}
+  header p{margin:2px 0 0;color:#cdddf5;font-size:.83rem}
+  header a.home{color:#cdddf5;font-size:.8rem;text-decoration:none}
+  .tabs{display:flex;background:#f4f6f9;border-bottom:1px solid var(--line)}
+  .tabs button{flex:1;border:0;background:none;padding:13px 8px;font-family:inherit;font-size:.92rem;font-weight:500;color:var(--soft);cursor:pointer;border-bottom:3px solid transparent}
+  .tabs button.on{color:var(--navy);border-bottom-color:var(--navy);background:#fff}
+  .panel{flex:1;display:none;flex-direction:column;min-height:0}
+  .panel.on{display:flex}
+  /* 채팅 */
+  #log{flex:1;overflow-y:auto;padding:18px clamp(14px,3.5vw,32px);display:flex;flex-direction:column;gap:12px}
+  .msg{max-width:84%;padding:10px 14px;border-radius:14px;font-size:.93rem;white-space:pre-wrap;word-break:break-word}
+  .msg.u{align-self:flex-end;background:var(--navy);color:#fff;border-bottom-right-radius:4px}
+  .msg.b{align-self:flex-start;background:#f1f4f8;color:var(--ink);border-bottom-left-radius:4px}
+  .msg.b.think{color:var(--soft);font-style:italic}
+  .sugg{display:flex;flex-wrap:wrap;gap:8px;padding:0 clamp(14px,3.5vw,32px) 10px}
+  .sugg button{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:18px;padding:7px 13px;font-size:.82rem;font-family:inherit;cursor:pointer}
+  .sugg button:hover{background:#f1f4f8}
+  .inbar{display:flex;gap:8px;padding:12px clamp(14px,3.5vw,32px);border-top:1px solid var(--line);background:#fff}
+  .inbar input{flex:1;border:1px solid var(--line);border-radius:22px;padding:11px 16px;font-size:.95rem;font-family:inherit;outline:none}
+  .inbar input:focus{border-color:var(--navy)}
+  .inbar button{border:0;background:var(--navy);color:#fff;border-radius:22px;padding:0 18px;font-size:.95rem;font-family:inherit;cursor:pointer}
+  .inbar button:disabled{opacity:.5;cursor:default}
+  /* 아바타 */
+  #ftf{position:relative;flex:1;background:#0b1220;display:flex;flex-direction:column}
+  #stage{position:relative;flex:1;min-height:300px;background:#0b1220;display:grid;place-items:center;overflow:hidden}
+  #video{width:100%;height:100%;object-fit:cover}
+  #overlay{position:absolute;inset:0;background:rgba(11,18,32,.92);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px}
+  #overlay.hidden{display:none}
+  #overlay .big{font-size:3rem}
+  #count{color:#9db4dd;font-size:.85rem;min-height:1em;opacity:0;transition:opacity .3s}
+  #count.show{opacity:1}
+  .startbtn{border:0;background:#fff;color:var(--navy);border-radius:26px;padding:13px 26px;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer}
+  #status{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.5);color:#fff;border-radius:16px;padding:6px 12px;font-size:.78rem;display:none;align-items:center;gap:7px}
+  #status.show{display:flex}
+  #status .dot{width:8px;height:8px;border-radius:50%;background:#34d399}
+  #status.speaking .dot{background:#60a5fa;animation:pulse 1s infinite}
+  @keyframes pulse{50%{opacity:.3}}
+  .disclaimer{font-size:.74rem;color:var(--soft);text-align:center;padding:8px 16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="top">
+      <div class="ava">🤖</div>
+      <div style="flex:1">
+        <h1>SRT 안내소 · 안내봇 리포</h1>
+        <p>중요위험이전(SRT) 연구를 쉬운 말로 설명해 드려요</p>
+      </div>
+      <a class="home" href="../index.html">← 프로젝트 홈</a>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button id="tabTtt" class="on" onclick="switchTab('ttt')">💬 글로 묻기</button>
+    <button id="tabFtf" onclick="switchTab('ftf')">🧑‍💼 아바타와</button>
+  </div>
+
+  <!-- TTT -->
+  <section id="panelTtt" class="panel on">
+    <div id="log"></div>
+    <div class="sugg" id="sugg"></div>
+    <div class="inbar">
+      <input id="q" type="text" placeholder="SRT가 뭔지 물어보세요…" autocomplete="off" />
+      <button id="send" onclick="ask()">보내기</button>
+    </div>
+    <div class="disclaimer">본 안내봇은 투자 권유가 아니라 연구 설명용입니다.</div>
+  </section>
+
+  <!-- FTF -->
+  <section id="panelFtf" class="panel">
+    <div id="ftf">
+      <div id="stage">
+        <video id="video" autoplay playsinline></video>
+        <div id="status"><span class="dot"></span><span id="statusText">준비됨</span></div>
+        <div id="overlay">
+          <div class="big">🧑‍💼</div>
+          <div id="overlayMsg">아바타와 얼굴을 보며 대화해요</div>
+          <div id="count"></div>
+          <button class="startbtn" id="startBtn" onclick="startSession()">아바타 시작</button>
+        </div>
+      </div>
+      <div class="inbar">
+        <input id="q2" type="text" placeholder="아바타에게 물어보세요…" autocomplete="off" disabled />
+        <button id="send2" onclick="askAvatar()" disabled>말하기</button>
+      </div>
+      <div class="disclaimer">아바타 연결에는 마이크/카메라 권한이 필요 없어요. 약 10초 정도 걸려요.</div>
+    </div>
+  </section>
+</div>
+
+<script>
+// ================= 공통 =================
+var AVATAR_ID = window.AVATAR_ID || '3303593d-4571-486f-a82d-35056b0d2e2c'; // LiveAvatar(음성 설정됨)
+var CHAT_URL    = './openai-chat.php';
+var TOKEN_URL   = './token.php';
+var SESSION_URL = './session.php';
+var LK = window.LivekitClient || window.LiveKit || window.livekit;
+
+var history = [];
+function esc(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+// OpenAI 답변 받기 (TTT/FTF 공용 두뇌)
+function chat(message){
+  history.push({role:'user',content:message});
+  return fetch(CHAT_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:message,history:history.slice(0,-1)})})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d && d.reply){ history.push({role:'assistant',content:d.reply}); }
+      return d;
+    });
+}
+
+// ================= 탭 =================
+function switchTab(which){
+  document.getElementById('tabTtt').classList.toggle('on',which==='ttt');
+  document.getElementById('tabFtf').classList.toggle('on',which==='ftf');
+  document.getElementById('panelTtt').classList.toggle('on',which==='ttt');
+  document.getElementById('panelFtf').classList.toggle('on',which==='ftf');
+}
+
+// ================= TTT 텍스트 채팅 =================
+var logEl=document.getElementById('log');
+function bubble(text,who,cls){
+  var d=document.createElement('div');
+  d.className='msg '+who+(cls?(' '+cls):'');
+  d.innerHTML=esc(text);
+  logEl.appendChild(d); logEl.scrollTop=logEl.scrollHeight;
+  return d;
+}
+var SUGGESTIONS=['SRT가 뭐예요?','전통적 유동화와 뭐가 달라요?','트렌치가 뭔가요?','왜 자본이 줄어드나요?','이 연구의 핵심 발견은요?','시스템리스크는 왜 문제죠?'];
+function renderSugg(){
+  var s=document.getElementById('sugg'); s.innerHTML='';
+  SUGGESTIONS.forEach(function(q){
+    var b=document.createElement('button'); b.textContent=q;
+    b.onclick=function(){document.getElementById('q').value=q; ask();};
+    s.appendChild(b);
+  });
+}
+function ask(){
+  var inp=document.getElementById('q'); var msg=inp.value.trim();
+  if(!msg) return;
+  inp.value=''; document.getElementById('send').disabled=true;
+  bubble(msg,'u');
+  document.getElementById('sugg').innerHTML='';
+  var think=bubble('리포가 생각하고 있어요…','b','think');
+  chat(msg).then(function(d){
+    think.remove();
+    bubble((d&&d.reply)?d.reply:'죄송해요, 답변을 가져오지 못했어요.','b');
+    document.getElementById('send').disabled=false;
+  }).catch(function(){
+    think.remove(); bubble('연결에 문제가 있었어요. 잠시 후 다시 시도해주세요.','b');
+    document.getElementById('send').disabled=false;
+  });
+}
+document.getElementById('q').addEventListener('keydown',function(e){if(e.key==='Enter')ask();});
+renderSugg();
+bubble('안녕하세요! SRT(중요위험이전) 연구를 안내하는 리포예요. 아래 버튼을 누르거나 무엇이든 물어보세요. 🙂','b');
+
+// ================= FTF 아바타 (LiveAvatar + LiveKit) =================
+var room=null, session=null, ready=false, starting=false;
+var keepAliveTimer=null, pendingSpeaks=[], greetingFired=false, greetingTimer=null;
+var videoEl=document.getElementById('video');
+var overlay=document.getElementById('overlay'), overlayMsg=document.getElementById('overlayMsg'), overlayCount=document.getElementById('count');
+var statusEl=document.getElementById('status'), statusText=document.getElementById('statusText');
+
+function setOverlay(show,msg){ if(msg)overlayMsg.textContent=msg; overlay.classList.toggle('hidden',!show); }
+var countdownTimer=null, CONNECT_ESTIMATE=12;
+function startCountdown(total){ stopCountdown(); var left=total; overlayCount.textContent='약 '+left+'초'; overlayCount.classList.add('show');
+  countdownTimer=setInterval(function(){left--; if(left>0){overlayCount.textContent='약 '+left+'초';}else{overlayCount.textContent='거의 다 됐어요'; clearInterval(countdownTimer); countdownTimer=null;}},1000); }
+function stopCountdown(){ if(countdownTimer){clearInterval(countdownTimer);countdownTimer=null;} overlayCount.textContent=''; overlayCount.classList.remove('show'); }
+function setStatus(state){ if(!state){statusEl.classList.remove('show');return;} statusEl.classList.add('show'); statusEl.classList.toggle('speaking',state==='speaking'); statusText.textContent=state==='speaking'?'말하는 중':'준비됨'; }
+function uuid(){ if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=(Math.random()*16)|0;var v=c==='x'?r:(r&0x3)|0x8;return v.toString(16);}); }
+
+function sendSpeak(text){ if(!room||!room.localParticipant)return;
+  var cmd={event_id:uuid(),event_type:'avatar.speak_text',text:text};
+  var encoded=new TextEncoder().encode(JSON.stringify(cmd));
+  try{ room.localParticipant.publishData(encoded,{reliable:true,topic:'agent-control'}); }catch(e){ console.error(e); } }
+function speak(text,isGreeting){ if(!text)return;
+  if(!isGreeting){ greetingFired=true; if(greetingTimer){clearTimeout(greetingTimer);greetingTimer=null;} }
+  if(!ready){ pendingSpeaks.push(text); return; } sendSpeak(text); }
+function flushPending(){ if(!pendingSpeaks.length)return; greetingFired=true; if(greetingTimer){clearTimeout(greetingTimer);greetingTimer=null;}
+  var list=pendingSpeaks.slice(); pendingSpeaks=[]; list.forEach(function(t){sendSpeak(t);}); }
+
+function startSession(){
+  if(starting||ready)return; starting=true;
+  if(!LK){ setOverlay(true,'영상 모듈을 불러오지 못했어요.'); starting=false; return; }
+  setOverlay(true,'리포를 준비하고 있어요…'); startCountdown(CONNECT_ESTIMATE);
+  fetch(TOKEN_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({avatar_id:AVATAR_ID,interactivity_type:'CONVERSATIONAL'})})
+  .then(function(r){return r.json();})
+  .then(function(sess){
+    if(!sess||!sess.livekit_url||!sess.livekit_client_token){ throw new Error('세션 생성 실패: '+JSON.stringify(sess)); }
+    session=sess; room=new LK.Room({adaptiveStream:true,dynacast:true});
+    room.on(LK.RoomEvent.TrackSubscribed,function(track){
+      if(track.kind==='video'){ track.attach(videoEl); onAvatarVisible(); }
+      else if(track.kind==='audio'){ var a=track.attach(); a.autoplay=true; document.body.appendChild(a); if(a.play)a.play().catch(function(){}); }
+    });
+    room.on(LK.RoomEvent.DataReceived,function(payload){
+      try{ var evt=JSON.parse(new TextDecoder().decode(payload)); var t=evt.event_type||evt.type||'';
+        if(t==='avatar.speak_started')setStatus('speaking'); if(t==='avatar.speak_ended')setStatus('ready'); }catch(e){} });
+    room.on(LK.RoomEvent.Disconnected,function(){ teardown(false); });
+    return room.connect(session.livekit_url,session.livekit_client_token);
+  })
+  .then(function(){ startKeepAlive(); })
+  .catch(function(err){ console.error(err); stopCountdown(); setOverlay(true,'연결에 실패했어요. 잠시 후 다시 시도해주세요.'); starting=false; });
+}
+function onAvatarVisible(){
+  if(ready)return; ready=true; starting=false; stopCountdown(); setOverlay(false); setStatus('ready');
+  document.getElementById('q2').disabled=false; document.getElementById('send2').disabled=false;
+  if(pendingSpeaks.length){ setTimeout(flushPending,600); return; }
+  if(!greetingFired){ greetingTimer=setTimeout(function(){ if(greetingFired)return; greetingFired=true;
+    sendSpeak('안녕하세요, SRT 연구를 안내하는 리포예요. 무엇이든 물어보세요.'); },1500); }
+}
+function startKeepAlive(){ stopKeepAlive(); keepAliveTimer=setInterval(function(){ if(!session)return;
+  fetch(SESSION_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action:'keep-alive',session_id:session.session_id})}).catch(function(){}); },60000); }
+function stopKeepAlive(){ if(keepAliveTimer){clearInterval(keepAliveTimer);keepAliveTimer=null;} }
+function teardown(callStop){ stopKeepAlive();
+  if(callStop&&session){ fetch(SESSION_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action:'stop',session_id:session.session_id,reason:'USER_CLOSED'})}).catch(function(){}); }
+  if(greetingTimer){clearTimeout(greetingTimer);greetingTimer=null;} stopCountdown();
+  try{ if(room)room.disconnect(); }catch(e){} room=null; session=null; ready=false; starting=false;
+  document.getElementById('q2').disabled=true; document.getElementById('send2').disabled=true;
+  setStatus(null); setOverlay(true,'아바타와 얼굴을 보며 대화해요'); }
+
+// 아바타 모드: 사용자 질문 → openai-chat.php 두뇌 → 아바타가 발화
+function askAvatar(){
+  var inp=document.getElementById('q2'); var msg=inp.value.trim(); if(!msg)return;
+  inp.value=''; setStatus('speaking');
+  chat(msg).then(function(d){ speak((d&&(d.ttsReply||d.reply))||'잘 못 알아들었어요.',false); })
+    .catch(function(){ speak('연결에 문제가 있었어요. 다시 물어봐 주세요.',false); });
+}
+document.getElementById('q2').addEventListener('keydown',function(e){if(e.key==='Enter')askAvatar();});
+window.addEventListener('beforeunload',function(){ teardown(true); });
+</script>
+</body>
+</html>

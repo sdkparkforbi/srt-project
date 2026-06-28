@@ -1,0 +1,15 @@
+# 안내봇 앱은 자주 갱신되므로 HTML/PHP는 캐시하지 않음(항상 최신 표시)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|php)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+# config.php 직접 접근 차단
+<Files "config.php">
+  Require all denied
+</Files>
+<Files "config.php.example">
+  Require all denied
+</Files>
