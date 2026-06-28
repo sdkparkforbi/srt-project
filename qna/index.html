@@ -67,6 +67,20 @@
   #status.speaking .dot{background:#60a5fa;animation:pulse 1s infinite}
   @keyframes pulse{50%{opacity:.3}}
   .disclaimer{font-size:.74rem;color:var(--soft);text-align:center;padding:8px 16px}
+  /* STS 음성 대화 */
+  .sts{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px 20px;text-align:center}
+  .stsConn{font-size:.8rem;color:var(--soft);display:flex;align-items:center;gap:7px}
+  .stsConn .dot{width:8px;height:8px;border-radius:50%;background:#9aa4b2}
+  .stsConn .dot.online{background:#34d399}
+  .viz{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;font-size:3.2rem;background:radial-gradient(circle,#e8eef7,#d3deef);transition:transform .2s,box-shadow .2s}
+  .viz.listening{box-shadow:0 0 0 8px rgba(52,211,153,.18);animation:vbreath 1.4s ease-in-out infinite}
+  .viz.speaking{box-shadow:0 0 0 10px rgba(31,107,156,.22);animation:vbreath .7s ease-in-out infinite}
+  @keyframes vbreath{50%{transform:scale(1.07)}}
+  .stsStatus{font-size:1rem;color:var(--ink);font-weight:500}
+  .stsTranscript{min-height:2.6em;max-width:560px;font-size:.92rem;color:var(--soft);line-height:1.6;background:#f4f6f9;border-radius:12px;padding:12px 16px;width:100%;box-sizing:border-box}
+  .stsBtn{border:0;background:var(--navy);color:#fff;border-radius:26px;padding:13px 30px;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer}
+  .stsBtn.stop{background:#c0392c}
+  .stsBtn:disabled{opacity:.6;cursor:default}
 </style>
 </head>
 <body>
@@ -84,6 +98,7 @@
 
   <div class="tabs">
     <button id="tabTtt" class="on" onclick="switchTab('ttt')">💬 글로 묻기</button>
+    <button id="tabSts" onclick="switchTab('sts')">🎙️ 음성 대화</button>
     <button id="tabFtf" onclick="switchTab('ftf')">🧑‍💼 아바타와</button>
   </div>
 
@@ -96,6 +111,19 @@
       <button id="send" onclick="ask()">보내기</button>
     </div>
     <div class="disclaimer">본 안내봇은 투자 권유가 아니라 연구 설명용입니다.</div>
+  </section>
+
+  <!-- STS -->
+  <section id="panelSts" class="panel">
+    <div class="sts">
+      <div class="stsConn" id="stsConn"><span class="dot"></span> 대기</div>
+      <div class="viz" id="viz">🎙️</div>
+      <div class="stsStatus" id="stsStatus">버튼을 눌러 음성으로 대화를 시작하세요</div>
+      <div class="stsTranscript" id="stsTranscript"></div>
+      <button class="stsBtn" id="stsBtn" onclick="toggleSTS()">음성 대화 시작</button>
+      <div id="stsAudio"></div>
+      <div class="disclaimer">마이크 권한이 필요해요. 말이 끝나면 리포가 음성으로 답해요(실시간).</div>
+    </div>
   </section>
 
   <!-- FTF -->
@@ -146,10 +174,13 @@ function chat(message){
 
 // ================= 탭 =================
 function switchTab(which){
-  document.getElementById('tabTtt').classList.toggle('on',which==='ttt');
-  document.getElementById('tabFtf').classList.toggle('on',which==='ftf');
-  document.getElementById('panelTtt').classList.toggle('on',which==='ttt');
-  document.getElementById('panelFtf').classList.toggle('on',which==='ftf');
+  if(which!=='sts' && stsActive) stopSTS();
+  ['ttt','sts','ftf'].forEach(function(m){
+    var t=document.getElementById('tab'+m.charAt(0).toUpperCase()+m.slice(1));
+    var p=document.getElementById('panel'+m.charAt(0).toUpperCase()+m.slice(1));
+    if(t) t.classList.toggle('on',m===which);
+    if(p) p.classList.toggle('on',m===which);
+  });
 }
 
 // ================= TTT 텍스트 채팅 =================
@@ -189,6 +220,55 @@ function ask(){
 document.getElementById('q').addEventListener('keydown',function(e){if(e.key==='Enter')ask();});
 renderSugg();
 bubble('안녕하세요! SRT(중요위험이전) 연구를 안내하는 리포예요. 아래 버튼을 누르거나 무엇이든 물어보세요. 🙂','b');
+
+// ================= STS 음성 대화 (OpenAI Realtime + WebRTC) =================
+var stsActive=false, stsPC=null, stsDC=null;
+function vizState(s){ var v=document.getElementById('viz'); v.classList.remove('listening','speaking'); if(s)v.classList.add(s); }
+function toggleSTS(){ if(stsActive) stopSTS(); else startSTS(); }
+async function startSTS(){
+  var btn=document.getElementById('stsBtn'), st=document.getElementById('stsStatus'), conn=document.getElementById('stsConn');
+  btn.textContent='연결 중…'; btn.disabled=true; st.textContent='서버에 연결하고 있어요…';
+  try{
+    var tr=await fetch('./realtime-token.php',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+    var td=await tr.json();
+    if(!td.client_secret||!td.client_secret.value) throw new Error(td.error||'토큰 발급 실패');
+    var pc=new RTCPeerConnection(); stsPC=pc;
+    var audio=document.createElement('audio'); audio.autoplay=true; document.getElementById('stsAudio').appendChild(audio);
+    pc.ontrack=function(e){ audio.srcObject=e.streams[0]; vizState('speaking'); };
+    var stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    pc.addTrack(stream.getTracks()[0], stream);
+    var dc=pc.createDataChannel('oai-events'); stsDC=dc;
+    dc.onmessage=function(e){ try{ handleSTSEvent(JSON.parse(e.data)); }catch(x){} };
+    var offer=await pc.createOffer(); await pc.setLocalDescription(offer);
+    var sdpRes=await fetch('https://api.openai.com/v1/realtime/calls?model=gpt-realtime',{
+      method:'POST', headers:{'Authorization':'Bearer '+td.client_secret.value,'Content-Type':'application/sdp'}, body:offer.sdp });
+    var answer=await sdpRes.text();
+    await pc.setRemoteDescription({type:'answer',sdp:answer});
+    stsActive=true; btn.textContent='대화 종료'; btn.disabled=false; btn.classList.add('stop');
+    st.textContent='듣고 있어요…'; conn.innerHTML='<span class="dot online"></span> 연결됨'; vizState('listening');
+  }catch(err){ console.error(err); st.textContent='연결에 실패했어요: '+err.message; btn.textContent='음성 대화 시작'; btn.disabled=false; }
+}
+function handleSTSEvent(ev){
+  var st=document.getElementById('stsStatus'), tr=document.getElementById('stsTranscript');
+  switch(ev.type){
+    case 'input_audio_buffer.speech_started': st.textContent='듣고 있어요…'; vizState('listening'); break;
+    case 'input_audio_buffer.speech_stopped': st.textContent='생각하고 있어요…'; vizState(''); break;
+    case 'response.created': st.textContent='답변하고 있어요…'; vizState('speaking'); break;
+    case 'response.done': st.textContent='듣고 있어요…'; vizState('listening'); break;
+    case 'conversation.item.input_audio_transcription.completed': if(ev.transcript) tr.textContent='나: '+ev.transcript; break;
+    case 'response.audio_transcript.delta': if(ev.delta){ tr._b=(tr._b||'')+ev.delta; tr.textContent='리포: '+tr._b; } break;
+    case 'response.audio_transcript.done': if(ev.transcript) tr.textContent='리포: '+ev.transcript; tr._b=''; break;
+  }
+}
+function stopSTS(){
+  if(stsPC){ try{ stsPC.getSenders().forEach(function(s){ if(s.track)s.track.stop(); }); }catch(e){} stsPC.close(); stsPC=null; }
+  stsDC=null; stsActive=false;
+  document.getElementById('stsAudio').innerHTML='';
+  var btn=document.getElementById('stsBtn'); btn.textContent='음성 대화 시작'; btn.classList.remove('stop'); btn.disabled=false;
+  document.getElementById('stsStatus').textContent='버튼을 눌러 음성으로 대화를 시작하세요';
+  document.getElementById('stsConn').innerHTML='<span class="dot"></span> 대기';
+  vizState('');
+}
 
 // ================= FTF 아바타 (LiveAvatar + LiveKit) =================
 var room=null, session=null, ready=false, starting=false;
@@ -268,7 +348,7 @@ function askAvatar(){
     .catch(function(){ var e='연결에 문제가 있었어요. 다시 물어봐 주세요.'; setCaption(e); speak(e,false); });
 }
 document.getElementById('q2').addEventListener('keydown',function(e){if(e.key==='Enter')askAvatar();});
-window.addEventListener('beforeunload',function(){ teardown(true); });
+window.addEventListener('beforeunload',function(){ teardown(true); if(stsActive)stopSTS(); });
 </script>
 </body>
 </html>
