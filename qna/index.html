@@ -393,12 +393,15 @@ function startListen(){
   try{ recog.start(); }catch(e){ listening=false; if(convMode) setTimeout(startListen,500); }
 }
 function handleVoice(q){
-  awaitingReply=true; setCaption('나: '+q); setStatus('speaking');
-  chat(q).then(function(d){ var r=(d&&d.reply)||'잘 못 알아들었어요.'; setCaption('리포: '+r);
+  awaitingReply=true; setCaption('나: '+q+'  —  🤔 리포가 생각하고 있어요…'); setStatus('speaking');
+  var timed=false, to=setTimeout(function(){ timed=true; setCaption('⏱ 응답이 늦어요(네트워크 확인). 잠시 후 다시 말씀해 주세요.'); awaitingReply=false; if(convMode) setTimeout(startListen,1000); }, 25000);
+  chat(q).then(function(d){ if(timed)return; clearTimeout(to);
+    var r=(d&&d.reply)||((d&&d.error)?('오류: '+d.error):'(빈 응답)'); setCaption('리포: '+r);
     speak((d&&(d.ttsReply||d.reply))||r,false); awaitingReply=false;
     // 발화 종료(avatar.speak_ended) 시 자동 재청취. 이벤트 누락 대비 안전 타이머도 가동.
     if(convMode) setTimeout(function(){ if(convMode&&!listening) startListen(); }, 14000);
-  }).catch(function(){ awaitingReply=false; setCaption('연결 문제로 답하지 못했어요. 다시 말씀해 주세요.'); if(convMode) setTimeout(startListen,800); });
+  }).catch(function(err){ if(timed)return; clearTimeout(to); awaitingReply=false;
+    setCaption('답변 오류: '+((err&&err.message)||err)+' — 다시 말씀해 주세요.'); if(convMode) setTimeout(startListen,1000); });
 }
 
 // 아바타 모드: 사용자 질문 → openai-chat.php 두뇌 → 아바타가 발화
