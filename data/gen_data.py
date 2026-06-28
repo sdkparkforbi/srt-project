@@ -41,8 +41,9 @@ def cell(v,pct=False,won=False):
 trs=""
 for code,name,cls,ead,rwa,arw,elr,tot,cet1 in ROWS:
     badge={"실측":"m","추정":"e","표준법":"s"}[cls]
+    rwa_disp=cell(rwa,won=True)+("<sup>†</sup>" if cls=="추정" and rwa else "")
     trs+=(f'<tr><td class="l">{name}</td><td><span class="b {badge}">{cls}</span></td>'
-          f'<td>{cell(ead,won=True)}</td><td>{cell(rwa,won=True)}</td>'
+          f'<td>{cell(ead,won=True)}</td><td>{rwa_disp}</td>'
           f'<td>{cell(arw,pct=True)}</td><td>{("—" if elr is None else f"{elr:.2%}")}</td>'
           f'<td>{cell(tot,won=True)}</td><td>{cell(cet1)}</td>'
           f'<td class="l"><a href="{url(code)}" target="_blank">통일공시 ↗</a></td></tr>\n')
@@ -86,7 +87,8 @@ html=f'''<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
 </header>
 <main>
  <div class="src">
-  <b>출처.</b> ① 기업 EAD·RWA·LGD·예상손실 = 각 은행 「리스크관리」 공시(은행연합회 통일경영공시, 2025년말)의 내부등급법 표(CR6) 직접 추출. ② 총위험가중자산·보통주자본비율(CET1) = 금융감독원 금융통계정보시스템(FISIS), 통계표 SA014, 2025년 4분기. 단위는 억원.
+  <b>출처 및 기준시점(모두 2025년말).</b> ① 기업 EAD·RWA·LGD·예상손실 = 각 은행 「리스크관리」 공시(은행연합회 통일경영공시, <b>2025년말(4분기)</b>)의 내부등급법 표(CR6) 직접 추출. ② 총위험가중자산·보통주자본비율(CET1) = 금융감독원 금융통계정보시스템(FISIS), 통계표 SA014, <b>2025년 4분기</b>. 단위는 억원.<br>
+  <span style="color:#b8860b">※ 추정 3개(부산·경남·광주)의 기업 RWA(<sup>†</sup>)는 2025년말 상세표가 PDF에서 추출되지 않아 부득이 <b>2026년 1분기 통일공시</b> 기준을 사용했습니다. 페이지 위치 확인 시 2025년말 실측으로 교체 예정.</span>
  </div>
  <h2>은행별 데이터</h2>
  <div class="tw"><table>
