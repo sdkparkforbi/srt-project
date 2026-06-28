@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>검토의견에 대한 답변서 — 중요위험이전(SRT) 합성증권화 연구</title>
+<meta name="description" content="금융감독원 은행리스크검사2팀의 검토의견 8개 항목에 대한 답변서. 표준법/내부등급법 은행 구분, 이전비중(10/30/50%) 시나리오, RWA 증감 분해, 유럽 사례 비교, 신규 대출여력, 시스템리스크 통제 방안 포함." />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="검토의견에 대한 답변서 — SRT 합성증권화 연구" />
+<meta property="og:description" content="금융감독원 검토의견 8개 항목 대응: 표준법/내부등급법 구분, 이전비중 시나리오, RWA 분해, 신규 대출여력, 시스템리스크 통제." />
+<meta property="og:image" content="https://sdkparkforbi.github.io/srt-project/assets/response_thumb.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://sdkparkforbi.github.io/srt-project/response.html" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--ink:#1f2733;--soft:#5d6675;--line:#e3e7ec;--bg:#f5f6f8;--paper:#fff;
+    --navy:#1d3b6e;--accent:#b3261e;--teal:#0f766e;--good:#15803d;--bad:#b3261e;--shade:#f1f4f8}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Serif KR',serif;line-height:1.9;font-size:17px;-webkit-font-smoothing:antialiased}
+  #bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--navy),var(--teal));z-index:60;transition:width .1s}
+  .paper{max-width:900px;margin:0 auto;background:var(--paper);box-shadow:0 1px 40px rgba(20,30,50,.08)}
+  header.hd{background:linear-gradient(150deg,#1d3b6e,#16305c);color:#fff;padding:46px clamp(24px,5vw,64px) 40px}
+  header.hd .kick{font-family:'Noto Sans KR',sans-serif;font-size:.78rem;letter-spacing:2px;color:#a9c2ec;text-transform:uppercase}
+  header.hd h1{font-size:clamp(1.4rem,3.2vw,2rem);line-height:1.45;margin:.5em 0 .35em;font-weight:700}
+  header.hd .to{margin-top:16px;font-family:'Noto Sans KR',sans-serif;font-size:.92rem;color:#dde7f7;line-height:1.7}
+  header.hd .nav{margin-top:18px}
+  header.hd .nav a{display:inline-block;font-family:'Noto Sans KR',sans-serif;font-size:.82rem;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:6px 13px;border-radius:20px;margin:3px 6px 3px 0}
+  main{padding:10px clamp(24px,5vw,64px) 56px}
+  .intro{background:var(--shade);border-left:4px solid var(--navy);padding:18px 24px;margin:28px 0;border-radius:0 8px 8px 0;font-size:.97rem}
+  h2.sec{font-family:'Noto Sans KR',sans-serif;font-size:1.18rem;color:var(--navy);margin:2em 0 .2em;padding-bottom:.3em;border-bottom:2px solid var(--line)}
+  h2.sec .n{display:inline-block;background:var(--navy);color:#fff;border-radius:6px;font-size:.85rem;padding:1px 9px;margin-right:.5em;font-family:'Noto Sans KR',sans-serif}
+  .op{background:#fff7ed;border:1px solid #f0d39a;border-radius:8px;padding:12px 16px;margin:10px 0;font-size:.92rem;font-family:'Noto Sans KR',sans-serif}
+  .op b{color:#9a6314}
+  .ans{font-size:.98rem}
+  .ans .tag{display:inline-block;font-family:'Noto Sans KR',sans-serif;font-size:.74rem;color:#fff;border-radius:20px;padding:2px 10px;margin-bottom:6px}
+  .t-acc{background:var(--good)}.t-ext{background:var(--teal)}.t-rev{background:var(--accent)}
+  p{margin:.6em 0 1em;text-align:justify;word-break:keep-all}
+  .tw{overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-family:'Noto Sans KR',sans-serif;font-size:.85rem}
+  caption{caption-side:top;text-align:left;font-size:.83rem;color:var(--soft);margin-bottom:6px}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:right}
+  th{background:var(--navy);color:#fff;font-weight:500;text-align:center}
+  td.l,th.l{text-align:left}tbody tr:nth-child(even){background:#fafbfc}
+  .pos{color:var(--good);font-weight:600}.neg{color:var(--bad);font-weight:600}
+  .eq{background:var(--shade);border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin:10px 0;font-family:'Noto Sans KR',sans-serif;font-size:.9rem}
+  ul{padding-left:1.2em}li{margin:.4em 0;word-break:keep-all}
+  footer{background:#16305c;color:#bcccea;font-family:'Noto Sans KR',sans-serif;font-size:.82rem;padding:24px clamp(24px,5vw,64px);line-height:1.7}
+  footer a{color:#fff}
+  .disc{font-size:.8rem;color:var(--soft);border-top:1px solid var(--line);margin-top:26px;padding-top:12px}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="paper">
+<header class="hd">
+  <div class="kick">검토의견 답변서 · Response to Review · 2026</div>
+  <h1>「중요위험이전(SRT) 합성증권화의 국내 은행 자본경감 효과」<br>검토의견에 대한 답변</h1>
+  <div class="to">
+    수신: 금융감독원 은행감독국 은행리스크검사2팀 김정일 팀장<br>
+    회신: 공동연구진 · 검토의견 8개 항목 및 서론 보완의견에 대한 반영계획
+  </div>
+  <div class="nav">
+    <a href="index.html">← 프로젝트 홈</a>
+    <a href="paper.html">논문(실증분석)</a>
+    <a href="storybook.html">그림책 해설</a>
+  </div>
+</header>
+<main>
+  <div class="intro">
+    먼저 상세한 검토의견에 깊이 감사드립니다. 지적하신 대로 다듬을 부분이 많아, 말씀하신 순서대로 차근차근 반영하겠습니다. 특히 <b>제2항(표준방법·내부등급법 은행 구분)</b>은 저희가 최근 각 은행 「리스크관리」 공시의 내부등급법 실측치를 직접 추출하면서 동일하게 확인한 사항으로, 가정값을 실측치로 전면 교체하였습니다. 아래는 항목별 답변과 반영계획이며, 일부 항목은 실측 기반 예비 결과를 함께 제시합니다.
+    <span class="tag t-acc" style="margin-left:4px">반영</span> <span class="tag t-ext">확장</span> <span class="tag t-rev">수정</span> 으로 처리 방향을 표시했습니다.
+  </div>
+
+  <h2 class="sec"><span class="n">서론</span>도입 배경 보완</h2>
+  <div class="op"><b>의견.</b> 서론에 국내 SRT 도입 논의가 대두된 배경으로 최근 <b>생산적 금융 활성화 기조</b>를 언급.</div>
+  <div class="ans"><span class="tag t-acc">반영</span>
+    <p>전적으로 반영하겠습니다. 서론 도입부를 "바젤Ⅲ 자본규제 강화 → 자본 효율화 필요"라는 일반론에서 출발하되, <b>최근 정부의 생산적 금융 활성화 기조</b>(기업·중소기업 등 생산적 부문에 대한 신용공급 확대 요구)와 연결하여, 증자 없이 위험가중자산을 경감해 대출여력을 확보하는 수단으로서 SRT 도입 논의가 대두되었음을 명시하겠습니다. 이는 제7항(신규 대출여력)과 직접 연결되는 서사로 구성합니다.</p>
+  </div>
+
+  <h2 class="sec"><span class="n">1</span>연구의 범위 — 자본효과만? 시스템리스크까지?</h2>
+  <div class="op"><b>의견.</b> 자본비율 계량효과만 산출할지, 도입 시 시스템리스크 부정적 효과까지 일부라도 다룰지?</div>
+  <div class="ans"><span class="tag t-ext">확장</span>
+    <p>자본경감 계량효과를 <b>본체</b>로 유지하되, 시스템리스크 부정적 효과를 <b>독립된 장(章)</b>으로 추가하겠습니다(제8항과 통합). 구체적으로 ① 경기순응성(투자자 보증여부·차환에 따른 신용공급 변동), ② 은행–비은행금융중개기관(NBFI) 상호연계성, ③ 차환위험(기초자산 만기 > 보증 만기), ④ step-in risk를 정성·정량(시나리오) 양면으로 다룹니다. 즉 "편익(자본·대출)과 위험(시스템)의 균형"을 본 논문의 결론 구조로 삼겠습니다.</p>
+  </div>
+
+  <h2 class="sec"><span class="n">2</span>표준방법 은행과 내부등급법 은행의 구분</h2>
+  <div class="op"><b>의견.</b> 실증분석에서 표준방법 적용은행과 내부등급법 적용은행을 구분해 위험가중치를 정해야 함. 기타소매 RW 75% 가정은 표준방법 은행(20개 중 5개)에만 적절하고, 나머지 15개 내부등급법 은행은 훨씬 낮음. 주담대도 15% 내외.</div>
+  <div class="ans"><span class="tag t-rev">수정(전면)</span>
+    <p>정확한 지적이며 전적으로 동의합니다. 저희도 동일한 문제의식에서 각 은행 「리스크관리」 공시(내부등급법 CR6 표)의 <b>실측 위험가중치·익스포저·예상손실을 직접 추출</b>하였고, 그 결과 지적하신 바와 정확히 일치하였습니다. 가정값(기업·기타소매 75%)을 <b>실측치로 전면 교체</b>합니다.</p>
+    <div class="tw">
+    <table>
+      <caption>내부등급법 적용 8개 은행 — <b>실측</b> 기업 평균위험가중치 (2025년말 「리스크관리」 공시)</caption>
+      <thead><tr><th class="l">은행</th><th>기업 평균RW(실측)</th><th>(참고) 가정값</th></tr></thead>
+      <tbody>
+        <tr><td class="l">IBK기업</td><td>50.5%</td><td>75%</td></tr>
+        <tr><td class="l">KB국민</td><td>40.9%</td><td>75%</td></tr>
+        <tr><td class="l">신한</td><td>36.0%</td><td>75%</td></tr>
+        <tr><td class="l">하나</td><td>38.7%</td><td>75%</td></tr>
+        <tr><td class="l">우리</td><td>38.8%</td><td>75%</td></tr>
+        <tr><td class="l">KDB산업</td><td>41.2%</td><td>75%</td></tr>
+        <tr><td class="l">NH농협</td><td>43.3%</td><td>75%</td></tr>
+        <tr><td class="l">수협</td><td>48.5%</td><td>75%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>실측 기업 평균위험가중치는 <b>36~51%(평균 약 42%)</b>로 가정 75%의 절반 수준이며, 주거용주택담보는 <b>약 15%</b>(예: 신한 15.0%), 기타소매도 내부등급법에서 25~40% 수준임을 확인했습니다. 이에 따라 <b>표준방법 은행(5개)과 내부등급법 은행(15개)을 분리</b>하여, 내부등급법 은행은 공시 실측 RW를, 표준방법 은행은 표준 RW(기타소매 75%·주담대 35~70% 등)를 적용하도록 방법론을 수정합니다.</p>
+  </div>
+
+  <h2 class="sec"><span class="n">3</span>경감률 '기본'과 '적극'의 차이</h2>
+  <div class="op"><b>의견.</b> 경감률 기본·적극의 차이가 무엇인지 설명 추가 필요.</div>
+  <div class="ans"><span class="tag t-acc">반영</span> <span class="tag t-rev">재구성</span>
+    <p>당초 '기본/적극'은 은행이 보유하는 <b>우선손실(first-loss) 트렌치 두께</b>의 차이였습니다(기본=2% 보유, 적극=1% 보유). 다만 제4항 의견을 반영하여, 이 구분을 폐기하고 보다 직관적인 <b>"이전비중(10/30/50%) 시나리오"</b>로 재구성하겠습니다(아래 4항). 실측 기반에서는 우선손실 두께를 공시 <b>예상손실(약 0.6~1.2%)</b>로 고정하여 임의성을 제거하였음을 함께 기술합니다.</p>
+  </div>
+
+  <h2 class="sec"><span class="n">4</span>중소기업·특수금융 대상, 이전비중 시나리오(10/30/50%)</h2>
+  <div class="op"><b>의견.</b> 전 은행 확장 시 RW가 높은 중소기업·특수금융에만 SRT 적용(대기업도 RW 낮아 필요성 낮음). 개별은행의 중소기업·특수금융 익스포저의 10%·30%·50%를 이전하는 시나리오로 분석.</div>
+  <div class="ans"><span class="tag t-rev">수정(핵심)</span>
+    <p>매우 타당한 설계로, 그대로 채택합니다. 대상을 <b>중소기업·특수금융</b>으로 한정하고(대기업은 RW가 낮아 SRT 경제성이 낮음에 동의), 이전비중을 <b>10/30/50%</b>로 두는 시나리오로 재구성합니다. 아래는 내부등급법 은행의 <b>중소기업 실측 익스포저</b>에 적용한 예비 결과입니다.</p>
+    <div class="tw">
+    <table>
+      <caption>중소기업 익스포저 이전비중별 위험가중자산 경감 (내부등급법 은행 실측 기반, 예비)</caption>
+      <thead><tr><th class="l">이전비중</th><th>경감 RWA</th><th>대상 대비 경감률</th><th>절감 요구자본</th></tr></thead>
+      <tbody>
+        <tr><td class="l">10% 이전</td><td>약 33조원</td><td class="pos">42.6%</td><td>2.7조원</td></tr>
+        <tr><td class="l">30% 이전</td><td>약 39조원</td><td class="pos">50.3%</td><td>3.1조원</td></tr>
+        <tr><td class="l">50% 이전</td><td>약 45조원</td><td class="pos">57.9%</td><td>3.6조원</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>흥미로운 점은, <b>이전비중이 10%만 되어도 경감률이 40%를 넘는다</b>는 것입니다. 이는 위험이 집중된 중순위를 떼어내면 잔존 선순위가 안전해져 위험가중치 하한(15%)까지 낮아지기 때문이며(아래 5항), 동시에 이는 "적은 위험이전으로 과도한 자본경감"이라는 제8항의 규제차익 우려와 직결됩니다. 특수금융은 표준방법 적용 비중이 높아 동일 시나리오를 표준방법 산식으로 별도 산출하여 보완하겠습니다.</p>
+  </div>
+
+  <h2 class="sec"><span class="n">5</span>경감 로직의 상세화 — 메자닌 매각(−)과 우선손실 보유(+1,250%)의 분리</h2>
+  <div class="op"><b>의견.</b> 경감 로직을 상세히. 특히 중순위 매각으로 줄어드는 RWA와, 우선손실 매입(보유)으로 1,250% 적용에 따라 늘어나는 RWA가 구분되게.</div>
+  <div class="ans"><span class="tag t-ext">확장</span>
+    <p>경감 메커니즘을 별도 절로 상세화하고, 지적하신 <b>증감 분해</b>를 표로 제시하겠습니다. SRT 후 은행의 위험가중자산은 <b>(1) 메자닌 이전으로 제거되는 RWA(감소)</b>와 <b>(2) 우선손실 보유에 1,250% 적용으로 늘어나는 RWA(증가)</b>, 그리고 <b>(3) 잔존 선순위(하한 15%)</b>의 합으로 결정됩니다.</p>
+    <div class="eq">사후 RWA = 우선손실(두께 × 1,250%) + 선순위(두께 × 15%) + 메자닌(이전 → 0)</div>
+    <div class="tw">
+    <table>
+      <caption>RWA 증감 분해 — KB국민 중소기업 예시 (익스포저 100 정규화, 30% 이전)</caption>
+      <thead><tr><th class="l">구분</th><th>RWA(익스포저 대비)</th></tr></thead>
+      <tbody>
+        <tr><td class="l">사전 위험가중자산 (평균RW 40.7%)</td><td>40.7</td></tr>
+        <tr><td class="l">(+) 우선손실 보유 · 1,250% 적용</td><td class="neg">+10.1</td></tr>
+        <tr><td class="l">(+) 선순위 보유 · 하한 15%</td><td class="neg">+10.4</td></tr>
+        <tr><td class="l">(−) 메자닌(중순위) 투자자 이전</td><td class="pos">전액 제거</td></tr>
+        <tr><td class="l"><b>사후 위험가중자산 / 순경감</b></td><td><b>20.4 / −20.2 (−50%)</b></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>즉 메자닌 이전이 경감을 만들지만, <b>우선손실 보유에 부과되는 1,250%가 경감폭을 상당히 상쇄</b>(본 예시 +10.1)하므로, 우선손실 두께를 실측 예상손실 수준으로 얇게 유지하는 것이 경제성의 핵심임을 명확히 기술하겠습니다.</p>
+  </div>
+
+  <h2 class="sec"><span class="n">6</span>유럽은행 실제 사례와의 정합성 검증</h2>
+  <div class="op"><b>의견.</b> 산출한 경감효과가 make sense한지 유럽은행 실제 RWA 경감 사례와 비교하여 신뢰성 향상.</div>
+  <div class="ans"><span class="tag t-ext">확장</span>
+    <p>유럽 사례와의 대조절을 추가하겠습니다. 유럽시스템리스크위원회(ESRB) 예시에서는 20억 유로 기초자산(메자닌 비중 7.5%) SRT 시 <b>최소요구자본 8,500만 → 2,200만 유로</b>(자본비율 기준 4.25% → 1.1%, 약 3.15%p 경감)로 보고되며, 이는 본 연구의 중순위 이전 시 경감폭(대상자산 대비 40~58%)과 같은 차수입니다. 또한 BCBS는 전 세계 SRT로 위험경감된 자산을 약 <b>8,700억 달러</b>(유럽 80%)로 추산하는바, 이를 우리 추정 규모와 대비하여 정합성을 점검하겠습니다.</p>
+  </div>
+
+  <h2 class="sec"><span class="n">7</span>생산적 금융 신규 공급여력 추정</h2>
+  <div class="op"><b>의견.</b> RWA 감소 → 자본비율 상승분만큼 생산적 금융에 재공급할 경우 신규 자금공급 규모 추정.</div>
+  <div class="ans"><span class="tag t-acc">반영</span>
+    <p>반영합니다. 경감된 위험가중자산은 그만큼의 신규 여신 위험가중자산 여력에 해당하며, 생산적 금융(중소기업·기업)에 재투입할 경우의 신규 공급여력을 신규대출 위험가중치 가정별로 제시하겠습니다(내부등급법 8개 은행 기업 ΔRWA 약 218조원 기준).</p>
+    <div class="tw">
+    <table>
+      <caption>신규 자금공급 여력 추정 (ΔRWA 218조원 재투입 가정)</caption>
+      <thead><tr><th class="l">신규대출 평균RW 가정</th><th>40%</th><th>50%</th><th>75%</th></tr></thead>
+      <tbody><tr><td class="l">추가 공급여력</td><td>약 545조원</td><td>약 436조원</td><td>약 291조원</td></tr></tbody>
+    </table>
+    </div>
+    <p>다만 이는 풀린 여력이 전액 신규 대출로 재투입된다는 상한 가정이므로, 실제로는 자본버퍼 유지·수요 제약을 반영한 보수적 범위를 함께 제시하겠습니다.</p>
+  </div>
+
+  <h2 class="sec"><span class="n">8</span>시스템리스크 증가와 통제 방안으로 마무리</h2>
+  <div class="op"><b>의견.</b> 정부 장려·은행의 중순위 매각 확대에 따라 금융시스템 전반의 시스템리스크가 얼마나 증가할지, 이를 적절히 통제하면서 도입할 방법에 대한 제언으로 마무리.</div>
+  <div class="ans"><span class="tag t-ext">확장(결론)</span>
+    <p>본 논문의 결론을 이 구조로 마무리하겠습니다. <b>(위험 경로)</b> ① 위험이 비은행금융중개기관(NBFI)·해외 투자자로 집중·전이, ② 투자자 레버리지와 은행–투자자 상호연계성, ③ 차환위험(기초자산 만기 &gt; 보증 만기)으로 인한 요구자본 변동, ④ step-in risk, ⑤ 4항에서 본 "소량 이전·대량 경감"의 규제차익 가능성. <b>(통제 방안)</b> ㉠ 위험이전–자본경감의 <b>상응성 사전점검</b>(불비례 시 추가자본 부과), ㉡ <b>우선손실 보유한도·메자닌 최소이전비중</b> 명문화(영국 PRA: 메자닌 최소 50% 이전, 우선손실 보유 20% 한도), ㉢ 자기위험보유(retention)·투자자 적격성·공시(Pillar 3) 강화, ㉣ NBFI 익스포저 모니터링. 결국 "<b>생산적 금융 확대라는 편익을 살리되, 상응성·보유한도·공시라는 가드레일로 시스템리스크를 통제</b>"하는 단계적 도입을 제언합니다.</p>
+  </div>
+
+  <p class="disc">※ 본 답변서의 수치는 8개 내부등급법 은행의 「리스크관리」 공시 실측치에 기초한 <b>예비 결과</b>이며, 표준방법 5개 은행·특수금융 부문·부산·경남·광주(자동추출 제약)는 추가 반영 예정입니다. 트렌치 구조는 거래설계 가정이 일부 포함됩니다.</p>
+</main>
+<footer>
+  <div><b>검토의견 답변서</b> · 「중요위험이전(SRT) 합성증권화의 국내 은행 자본경감 효과」 · 2026</div>
+  <div style="margin-top:8px">관련 문서: <a href="paper.html">실증분석 논문</a> · <a href="storybook.html">그림책 해설</a> · <a href="index.html">프로젝트 홈</a></div>
+  <div style="margin-top:8px;font-size:.78rem;color:#9fb6dd">데이터: 은행연합회 「리스크관리」 공시(2025년말) + 금융감독원 FISIS · 방법론: 바젤위원회(2026)/Basel CRE44 SEC-IRBA·SEC-SA</div>
+</footer>
+</div>
+<script>const b=document.getElementById('bar');addEventListener('scroll',()=>{const h=document.documentElement;b.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'});</script>
+</body>
+</html>

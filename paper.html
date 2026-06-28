@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>중요위험이전(Significant Risk Transfer) 합성증권화의 국내 은행 자본경감 효과에 관한 실증 분석</title>
+<meta name="description" content="공개 공시자료와 금융통계정보시스템(FISIS)에 바젤 유동화 표준방법(SEC-SA)을 적용하여, 중요위험이전(SRT) 합성증권화 도입 시 국내 12개 은행의 위험가중자산 경감과 보통주자본비율(CET1) 상승 효과를 정량화한 학술 연구." />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="중요위험이전(SRT) 합성증권화의 국내 은행 자본경감 효과 — 실증 분석" />
+<meta property="og:description" content="공시자료+FISIS에 바젤 SEC-SA 적용 — 12개 은행 합산 위험가중자산 경감 약 288조원, 보통주자본비율(CET1) 평균 +3.2%p." />
+<meta property="og:image" content="https://sdkparkforbi.github.io/srt-study/assets/thumbnail.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://sdkparkforbi.github.io/srt-study/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+  :root{--ink:#1f2733;--soft:#5d6675;--line:#e3e7ec;--bg:#f5f6f8;--paper:#fff;
+    --navy:#1d3b6e;--accent:#b3261e;--teal:#0f766e;--good:#15803d;--bad:#b3261e;--shade:#f1f4f8;}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Serif KR',serif;
+    line-height:1.95;font-size:17px;-webkit-font-smoothing:antialiased}
+  #bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--navy),var(--teal));z-index:60;transition:width .1s}
+  .paper{max-width:900px;margin:0 auto;background:var(--paper);box-shadow:0 1px 40px rgba(20,30,50,.08)}
+  header.hd{background:linear-gradient(150deg,#1d3b6e,#16305c);color:#fff;padding:48px clamp(24px,5vw,68px) 40px}
+  header.hd .kick{font-family:'Noto Sans KR',sans-serif;font-size:.78rem;letter-spacing:2px;color:#a9c2ec;text-transform:uppercase}
+  header.hd h1{font-size:clamp(1.4rem,3.2vw,2.05rem);line-height:1.45;margin:.5em 0 .35em;font-weight:700}
+  header.hd .sub{color:#cdddf5;font-size:.98rem;line-height:1.6}
+  header.hd .meta{margin-top:20px;font-family:'Noto Sans KR',sans-serif;font-size:.88rem;color:#e8eefb}
+  header.hd .meta .m2{color:#9fb6dd;font-size:.8rem}
+  main{padding:8px clamp(24px,5vw,68px) 56px}
+  .abs{background:var(--shade);border-left:4px solid var(--navy);padding:20px 26px;margin:32px 0;border-radius:0 8px 8px 0}
+  .abs h2{font-family:'Noto Sans KR',sans-serif;font-size:.95rem;letter-spacing:1px;color:var(--navy);margin:0 0 .5em}
+  .abs p{font-size:.95rem;margin:.4em 0}
+  .abs.en p{font-size:.9rem;color:#3c4252;font-family:'Noto Sans KR',sans-serif}
+  .kw{font-size:.85rem;color:var(--soft);margin-top:10px}
+  h2.sec{font-family:'Noto Sans KR',sans-serif;font-size:1.3rem;color:var(--navy);margin:2.4em 0 .3em;padding-bottom:.3em;border-bottom:2px solid var(--line)}
+  h2.sec .no{color:var(--accent);margin-right:.4em}
+  h3.sub{font-family:'Noto Sans KR',sans-serif;font-size:1.06rem;margin:1.7em 0 .3em}
+  p{margin:.7em 0 1.1em;text-align:justify;word-break:keep-all}
+  ul,ol{padding-left:1.3em}li{margin:.45em 0;text-align:justify;word-break:keep-all}
+  .hyp{background:#fff;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:0 8px 8px 0;padding:12px 18px;margin:12px 0}
+  .hyp b{color:var(--teal);font-family:'Noto Sans KR',sans-serif}
+  figure{margin:22px 0;text-align:center}
+  figure svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px}
+  figcaption{font-family:'Noto Sans KR',sans-serif;font-size:.85rem;color:var(--soft);margin-top:8px;text-align:left}
+  figcaption b{color:var(--navy)}
+  .tw{overflow-x:auto;margin:18px 0}
+  table{width:100%;border-collapse:collapse;font-family:'Noto Sans KR',sans-serif;font-size:.85rem;line-height:1.5}
+  caption{caption-side:top;text-align:left;font-size:.85rem;color:var(--soft);margin-bottom:8px}
+  caption b{color:var(--navy)}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:right}
+  th{background:var(--navy);color:#fff;font-weight:500;text-align:center}
+  td.l,th.l{text-align:left}tbody tr:nth-child(even){background:#fafbfc}
+  tr.tot td{background:#eef2f8;font-weight:700}
+  .pos{color:var(--good);font-weight:600}.neg{color:var(--bad);font-weight:600}
+  .eq{background:var(--shade);border:1px solid var(--line);border-radius:8px;padding:8px 16px;margin:12px 0;overflow-x:auto;font-size:.95rem}
+  .note{background:#fff8e6;border:1px solid #f0d98a;border-radius:8px;padding:14px 18px;margin:16px 0;font-size:.9rem}
+  .note b{color:#9a7314}
+  .key{background:linear-gradient(135deg,#eef6f4,#e7f0fb);border:1px solid #cfe0dc;border-radius:10px;padding:18px 22px;margin:20px 0}
+  .key h4{font-family:'Noto Sans KR',sans-serif;margin:0 0 .4em;color:var(--teal)}
+  ol.refs{font-family:'Noto Sans KR',sans-serif;font-size:.84rem;color:#3a4252;line-height:1.7}
+  ol.refs li{margin:7px 0}
+  .gloss{font-family:'Noto Sans KR',sans-serif;font-size:.84rem}
+  .gloss th,.gloss td{text-align:left}
+  footer{background:#16305c;color:#bcccea;font-family:'Noto Sans KR',sans-serif;font-size:.82rem;padding:26px clamp(24px,5vw,68px);line-height:1.7}
+  footer code{background:rgba(255,255,255,.12);padding:3px 8px;border-radius:5px}
+  .disc{font-size:.8rem;color:var(--soft);border-top:1px solid var(--line);margin-top:30px;padding-top:14px}
+  sup{font-size:.7em;color:var(--accent)}
+  /* svg text classes */
+  .svgt{font-family:'Noto Sans KR',sans-serif;font-size:13px;fill:#1f2733}
+  .svgts{font-family:'Noto Sans KR',sans-serif;font-size:11px;fill:#5d6675}
+  .svgw{font-family:'Noto Sans KR',sans-serif;font-size:12px;fill:#fff}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="paper">
+
+<header class="hd">
+  <div class="kick">Working Paper · 2026</div>
+  <h1>중요위험이전(Significant Risk Transfer) 합성증권화의<br>국내 은행 자본경감 효과에 관한 실증 분석</h1>
+  <div class="sub">— 공개 공시자료와 금융통계정보시스템(Financial Statistics Information System)에 바젤 유동화 표준방법(Securitisation Standardised Approach)을 적용하여 —</div>
+  <div class="meta">연구 드래프트 v1.0<br>
+    <span class="m2">자료: 전국은행연합회 은행경영통일공시 · 금융감독원 금융통계정보시스템(2025년 4분기) · 바젤은행감독위원회 분석보고서(2026)</span></div>
+</header>
+
+<main>
+
+  <section class="abs">
+    <h2>국문 초록</h2>
+    <p>본 연구는 은행이 대출자산의 소유권을 유지한 채 그 신용위험의 일부를 구조화하여 투자자에게 이전하는 중요위험이전(Significant Risk Transfer, 이하 SRT) 합성증권화가 국내 은행의 규제자본 부담을 얼마나 경감시키는지를 정량적으로 분석한다. 국내에는 아직 실제 SRT 거래가 존재하지 않으므로, 본 연구는 개별 은행의 공개 공시자료에 바젤 유동화 표준방법(Securitisation Standardised Approach, 이하 SEC-SA)을 직접 적용하는 시뮬레이션을 채택한다. 자산유형별 위험가중자산(Risk-Weighted Assets, 이하 RWA)은 전국은행연합회(Korea Federation of Banks)의 은행경영통일공시에서 추출하고, 은행별 총 위험가중자산과 보통주자본비율(Common Equity Tier 1 ratio, 이하 CET1비율)은 금융감독원 금융통계정보시스템(Financial Statistics Information System, 이하 FISIS)의 표준 통계로 교차검증하여 결합하였다. 분석 결과, 위험가중치가 높은 기업대출과 기타소매 익스포저에서는 약 30%의 위험가중자산 경감이 나타난 반면 위험가중치가 낮은 주택담보대출에서는 경감효과가 음(−)으로 전환되어 자산군별 이질성이 뚜렷하였다. 국내 12개 은행에 적용한 결과 합산 위험가중자산 경감액은 약 288조 원, 절감 요구자본은 약 23조 원에 달하였으며, 보통주자본비율은 은행별로 +1.7~+4.2%포인트(평균 약 +3.2%포인트) 상승하는 것으로 추정되었다. 본 연구는 SRT가 고위험가중 기업대출을 중심으로 활용될 때 경제성을 가지며, 도입을 위해서는 위험이전과 자본경감의 상응성 점검 등 구체적 감독 가이드라인의 정비가 선결되어야 함을 제언한다.</p>
+    <div class="kw"><b>주제어:</b> 중요위험이전(SRT), 합성증권화, 위험가중자산(RWA), 유동화 표준방법(SEC-SA), 보통주자본비율(CET1), 바젤Ⅲ</div>
+  </section>
+
+  <section class="abs en">
+    <h2>ABSTRACT</h2>
+    <p>This paper quantifies how Significant Risk Transfer (SRT) synthetic securitisation — by which a bank transfers part of the credit risk of a loan portfolio to investors while retaining ownership of the assets — would relieve the regulatory capital burden of Korean banks. As no actual SRT transaction yet exists domestically, we adopt a simulation that applies the Basel Securitisation Standardised Approach (SEC-SA) directly to each bank's public disclosures. Asset-class Risk-Weighted Assets (RWA) are extracted from the uniform management disclosures of the Korea Federation of Banks, while bank-level total RWA and the Common Equity Tier 1 (CET1) ratio are cross-validated against the Financial Supervisory Service's Financial Statistics Information System (FISIS). For twelve Korean banks, SRT applied to corporate, other-retail, and specialised-lending exposures yields an aggregate RWA reduction of about KRW 288 trillion and frees roughly KRW 23 trillion of required capital, raising the CET1 ratio by +1.7 to +4.2 percentage points (mean ≈ +3.2pp). Capital relief is strongly conditional on asset risk weight: it is sizeable for high-risk-weight corporate loans but turns negative for low-risk-weight mortgages, implying that domestic SRT would concentrate in corporate exposures and that supervisory guidelines ensuring commensurate risk transfer are a prerequisite for adoption.</p>
+    <div class="kw"><b>Keywords:</b> Significant Risk Transfer, synthetic securitisation, risk-weighted assets, SEC-SA, CET1 ratio, Basel III</div>
+  </section>
+
+  <!-- 1 -->
+  <h2 class="sec"><span class="no">Ⅰ.</span>서론</h2>
+  <p>은행이 일정 수준 이상의 자본건전성을 유지하도록 요구하는 바젤Ⅲ 규제 체계가 단계적으로 시행되고 각종 완충자본 규제가 누적되면서, 국내 은행이 부담해야 하는 규제자본의 절대 규모는 지속적으로 증가해 왔다. 자본비율을 끌어올리는 전통적 수단인 증자나 이익유보는 자기자본비용이 높고 주주가치를 희석시키는 한계를 가지므로, 자본비율의 분모에 해당하는 위험가중자산(Risk-Weighted Assets, 이하 RWA)을 직접 축소하는 접근이 상대적으로 매력적인 대안으로 부상한다. 중요위험이전(Significant Risk Transfer, 이하 SRT) 합성증권화는 대출자산을 매각하지 않고도 그 신용위험만을 구조화하여 제3의 투자자에게 이전함으로써 위험가중자산을 경감시키는 정교한 수단으로, 바젤Ⅲ 도입 이후 유럽을 중심으로 그 거래 규모가 빠르게 확대되어 왔다. 그러나 우리나라에서는 관련 제도가 기본원칙 수준에 머물러 단 한 건의 실제 거래도 성사되지 못하였으며, 그 효과를 국내 자료로 정량화한 연구 역시 사실상 부재한 실정이다.</p>
+  <p>본 연구의 목적은 아직 거래가 존재하지 않는 국내 환경을 전제로, 개별 은행이 공개하는 공시자료에 바젤의 유동화 자본규제 산식을 직접 적용하는 시뮬레이션을 통해 SRT 도입의 자본경감 효과와 그 자산군별 이질성을 측정하는 데 있다. 이를 위해 본고는 바젤은행감독위원회(Basel Committee on Banking Supervision, 이하 바젤위원회)가 2026년에 발표한 SRT 분석보고서의 정의와 거래구조를 차용하되, 그 효과를 우리나라 은행의 실제 공시 수치 위에서 재현하는 데 초점을 둔다. 특히 자료의 신뢰성을 담보하기 위하여 자산유형별 위험가중자산은 전국은행연합회(Korea Federation of Banks, 이하 은행연합회)의 은행경영통일공시에서 추출하고, 은행별 총 위험가중자산과 보통주자본비율(Common Equity Tier 1 ratio, 이하 CET1비율)은 금융감독원 금융통계정보시스템(Financial Statistics Information System, 이하 FISIS)의 표준 통계로 교차검증하는 이중 출처 설계를 채택하였다. 본 연구의 기여는 국내 최초로 공개 가능한 자료와 검증 가능한 산식만으로 SRT의 자본경감 효과를 자산군별·은행별로 정량화하고, 그 결과의 재현성을 독립적 공식 통계로 확인하였다는 점에 있다.</p>
+
+  <!-- 2 -->
+  <h2 class="sec"><span class="no">Ⅱ.</span>제도적 배경 및 선행연구</h2>
+  <h3 class="sub">1. 중요위험이전(SRT)의 거래구조와 전통적 유동화와의 차이</h3>
+  <p>SRT는 기초자산 풀을 손실 흡수 순서에 따라 둘 이상의 트렌치(tranche)로 계층화한 뒤, 그 가운데 일부의 신용위험을 신용파생상품이나 보증을 통해 투자자에게 이전하는 합성증권화 구조이다. 바젤위원회의 분석보고서에 따르면 기초자산 풀은 통상 가장 먼저 손실을 흡수하는 우선손실(first loss, 약 1~2%), 예상외 손실을 떠안는 메자닌(mezzanine, 약 10~15%), 그리고 손실 가능성이 거의 없는 선순위(senior, 약 80~90%)의 세 트렌치로 구성되며, 은행은 위험이 집중된 메자닌 트렌치를 투자자에게 이전하고 그 대가로 보증수수료를 지급한다. 이는 기초자산 자체를 특수목적기구에 매각하여 대차대조표에서 제거하는 전통적 자산유동화와 본질적으로 구별되는데, SRT에서는 자산이 은행의 장부에 그대로 남고 오직 신용위험만이 분리·이전된다. 이러한 구조적 차이로 인하여 SRT는 자금조달보다는 위험가중자산의 축소와 그에 따른 자본비율의 제고를 직접적인 목적으로 활용된다.</p>
+  <h3 class="sub">2. 바젤 유동화 자본규제</h3>
+  <p>SRT 이후 은행이 보유하는 트렌치의 위험가중자산은 바젤의 유동화 자본규제 체계에 따라 산출되며, 바젤위원회는 적용 우선순위에 따라 유동화 내부등급법(Securitisation Internal Ratings-Based Approach, 이하 SEC-IRBA), 유동화 외부신용등급법(Securitisation External Ratings-Based Approach, 이하 SEC-ERBA), 유동화 표준방법(Securitisation Standardised Approach, 이하 SEC-SA)의 세 가지 방법을 제시한다. 규제상 잔존 트렌치의 위험가중치는 선순위의 경우 손실 가능성이 거의 없어 하한인 15%가 적용되고, 우선손실은 은행이 위험을 전부 흡수하므로 1,250%가 부과되어 사실상 자본에서 차감되는 효과를 가지며, 적격 투자자에게 이전된 메자닌은 은행의 위험가중자산에서 제외된다. 본 연구는 개별 자산의 부도확률(Probability of Default)이나 부도시 손실률(Loss Given Default) 같은 모수가 공시자료에서 일관되게 관측되지 않는 제약을 고려하여, 풀의 표준방법 소요자본율만으로 계산이 가능한 SEC-SA를 채택한다.</p>
+  <h3 class="sub">3. 선행연구</h3>
+  <p>SRT를 직접 다룬 국내의 학술적 선행연구는 소수의 정책기관 보고서와 미발간 자료에 한정되어 있다는 점이 이 분야의 두드러진 특징이다. 한국금융연구원(Korea Institute of Finance)의 신용상(2024)은 SRT 증권화의 자본비용 절감과 자본건전성 제고 효과를 양식화된 예시를 통해 개관하고 국내 도입 가능성을 점검한 선구적 연구이지만, 개별 은행의 실제 공시 수치에 바젤 산식을 적용한 정량적 재현에는 이르지 못하였다는 한계를 가진다. 국제적으로는 바젤위원회(2026)가 SRT의 거래구조와 위험가중자산 산출방식 및 감독 필요성을 종합적으로 정리하였고, 유럽시스템리스크위원회(European Systemic Risk Board)와 유럽은행감독청(European Banking Authority)은 유럽 SRT 시장의 현황과 감독 쟁점을 추적해 왔으며, 국제통화기금(International Monetary Fund)과 영국 건전성감독청(Prudential Regulation Authority)은 투자자 레버리지와 은행–비은행금융중개기관(Non-Bank Financial Intermediary) 간 상호연계성에 내재한 위험을 경고하였다. 본 연구는 국내 공시자료에 바젤 유동화 자본규제를 직접 적용하여 자산군별·은행별 효과를 재현함으로써 기존 국내 문헌이 남긴 정량화의 공백을 메우는 위치에 선다.</p>
+
+  <!-- 3 -->
+  <h2 class="sec"><span class="no">Ⅲ.</span>연구가설</h2>
+  <p>앞선 논의와 바젤위원회(2026)가 제시한 거래 메커니즘을 종합하면, SRT의 자본경감 효과는 그 크기와 부호가 자산의 위험가중치 수준 및 거래설계 변수에 따라 체계적으로 달라질 것이라는 예측에 도달한다. 본 연구는 이를 다음의 세 가지 검증 가능한 가설로 구체화한다.</p>
+  <div class="hyp"><b>가설 1 (이질성).</b> 위험가중자산 경감률은 자산군의 평균 위험가중치가 높을수록 커지며, 위험가중치가 충분히 낮은 자산에서는 우선손실 트렌치 보유에 따른 자본부담으로 경감효과가 음(−)으로 전환될 수 있다.</div>
+  <div class="hyp"><b>가설 2 (구조 민감도).</b> 은행이 보유하는 우선손실 트렌치의 두께가 얇아질수록 잔존 위험가중자산이 감소하여 자본경감 효과는 단조적으로 증가한다.</div>
+  <div class="hyp"><b>가설 3 (건전성 파급).</b> 고위험가중 기업대출을 중심으로 한 SRT는 은행 전체의 보통주자본비율(CET1비율)을 유의미한 폭으로 상승시켜, 증자 없이도 자본여력을 확충하는 수단이 될 수 있다.</div>
+
+  <!-- 4 -->
+  <h2 class="sec"><span class="no">Ⅳ.</span>자료 및 연구방법</h2>
+  <p>본 연구의 방법론은 바젤위원회(2026)가 정리한 트렌치 구조와 바젤의 유동화 자본규제 산식을 개별 은행의 공시 위험가중자산 위에서 재현하는 시뮬레이션으로 구성된다. 전체 분석 절차는 〈그림 1〉에 제시한 바와 같이 ① 두 공식 출처의 결합, ② 트렌치 구조 설정과 SEC-SA 적용, ③ 효과 산출의 세 단계로 이루어진다.</p>
+
+  <figure>
+    <svg viewBox="0 0 680 410" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="SEC-SA 방법론 흐름도">
+      <text class="svgt" x="340" y="30" text-anchor="middle" font-weight="500">① 두 공식 출처 결합</text>
+      <rect x="150" y="44" width="170" height="44" rx="8" fill="#f1f4f8" stroke="#c7d2e0"/>
+      <text class="svgt" x="235" y="64" text-anchor="middle" font-weight="500">은행연합회 통일공시</text>
+      <text class="svgts" x="235" y="80" text-anchor="middle">자산유형별 RWA</text>
+      <rect x="360" y="44" width="170" height="44" rx="8" fill="#f1f4f8" stroke="#c7d2e0"/>
+      <text class="svgt" x="445" y="64" text-anchor="middle" font-weight="500">금융감독원 FISIS</text>
+      <text class="svgts" x="445" y="80" text-anchor="middle">총RWA · CET1비율(검증)</text>
+      <line x1="340" y1="90" x2="340" y2="116" stroke="#5d6675" stroke-width="1.5" marker-end="url(#ar)"/>
+      <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0L8 4.5L0 9" fill="none" stroke="#5d6675" stroke-width="1.5"/></marker></defs>
+
+      <text class="svgt" x="340" y="134" text-anchor="middle" font-weight="500">② 트렌치 구조 — 유동화 표준방법(SEC-SA) 적용</text>
+      <text class="svgts" x="40" y="156" text-anchor="start">기초자산 풀 · 손실 흡수 순서 →</text>
+      <rect x="40" y="164" width="82" height="52" rx="3" fill="#f7d9d6" stroke="#b3261e"/>
+      <text class="svgt" x="81" y="186" text-anchor="middle" font-weight="500">우선손실</text>
+      <text class="svgts" x="81" y="201" text-anchor="middle">0–2%</text>
+      <rect x="122" y="164" width="150" height="52" rx="3" fill="#fbedcc" stroke="#b8860b"/>
+      <text class="svgt" x="197" y="186" text-anchor="middle" font-weight="500">메자닌</text>
+      <text class="svgts" x="197" y="201" text-anchor="middle">2–12%</text>
+      <rect x="272" y="164" width="368" height="52" rx="3" fill="#cfe8e3" stroke="#0f766e"/>
+      <text class="svgt" x="456" y="186" text-anchor="middle" font-weight="500">선순위</text>
+      <text class="svgts" x="456" y="201" text-anchor="middle">12–100%</text>
+      <text class="svgts" x="81" y="234" text-anchor="middle">은행 보유 · 위험가중치 1,250%</text>
+      <text class="svgts" x="197" y="234" text-anchor="middle">투자자 이전</text>
+      <text class="svgts" x="197" y="248" text-anchor="middle">은행 위험가중치 0%</text>
+      <text class="svgts" x="456" y="234" text-anchor="middle">은행 보유 · SEC-SA(하한 15%)</text>
+      <text class="svgts" x="340" y="270" text-anchor="middle">풀 소요자본 K_A = 평균위험가중치 × 8%</text>
+
+      <text class="svgt" x="340" y="296" text-anchor="middle" font-weight="500">③ 효과 산출</text>
+      <rect x="40" y="310" width="170" height="46" rx="8" fill="#f1f4f8" stroke="#c7d2e0"/>
+      <text class="svgt" x="125" y="330" text-anchor="middle" font-weight="500">ΔRWA</text>
+      <text class="svgts" x="125" y="346" text-anchor="middle">사전 − 사후 RWA</text>
+      <line x1="212" y1="333" x2="246" y2="333" stroke="#5d6675" stroke-width="1.5" marker-end="url(#ar)"/>
+      <rect x="250" y="310" width="170" height="46" rx="8" fill="#f1f4f8" stroke="#c7d2e0"/>
+      <text class="svgt" x="335" y="330" text-anchor="middle" font-weight="500">절감 요구자본</text>
+      <text class="svgts" x="335" y="346" text-anchor="middle">ΔRWA × 8%</text>
+      <line x1="422" y1="333" x2="456" y2="333" stroke="#5d6675" stroke-width="1.5" marker-end="url(#ar)"/>
+      <rect x="460" y="310" width="170" height="46" rx="8" fill="#cfe8e3" stroke="#0f766e"/>
+      <text class="svgt" x="545" y="330" text-anchor="middle" font-weight="500">CET1비율 상승</text>
+      <text class="svgts" x="545" y="346" text-anchor="middle">자본여력 확충</text>
+      <text class="svgts" x="40" y="380" text-anchor="start">주: 주택담보대출은 저위험가중치로 우선손실 보유(1,250%) 부담이 원가중치를 상회 → 경감효과 음(−)</text>
+      <text class="svgts" x="40" y="396" text-anchor="start">→ 분석에서 제외. 기업 · 기타소매 · 특수금융 익스포저만 적용.</text>
+    </svg>
+    <figcaption><b>〈그림 1〉</b> 중요위험이전(SRT) 자본경감 분석의 방법론 흐름. 두 공식 출처를 결합하여 트렌치별 위험가중치를 유동화 표준방법(SEC-SA)으로 산출하고, 위험가중자산 경감액(ΔRWA)을 절감 요구자본과 보통주자본비율(CET1비율) 변화로 환산한다.</figcaption>
+  </figure>
+
+  <h3 class="sub">1. 자료</h3>
+  <p>일차 자료는 두 개의 독립적 공식 출처를 결합하여 구성하였다. 첫째, 자산유형별 신용 위험가중자산은 각 은행이 은행연합회 은행경영통일공시(시장규율공시)에 게시한 「신용리스크 표준방법과 내부등급법의 비교」 표에서 기업·소매(주택담보·기타소매)·특수금융 익스포저별로 추출하였다. 둘째, 은행별 총 위험가중자산과 보통주자본비율은 금융감독원 금융통계정보시스템(FISIS)의 통계표(자본적정성)에서 2025년 4분기 기준값을 취하여 권위 있는 기준값으로 삼았다. 〈표 1〉은 사용 변수와 그 출처를 정리한 것이다.</p>
+  <div class="tw">
+  <table>
+    <caption><b>〈표 1〉</b> 분석에 사용한 변수와 자료 출처</caption>
+    <thead><tr><th class="l">변수</th><th class="l">정의</th><th class="l">출처</th></tr></thead>
+    <tbody>
+      <tr><td class="l">자산유형별 신용 RWA</td><td class="l">기업·주택담보·기타소매·특수금융별 위험가중자산</td><td class="l">은행연합회 통일공시</td></tr>
+      <tr><td class="l">총 위험가중자산</td><td class="l">신용·시장·운영리스크 합계 RWA</td><td class="l">FISIS (자본적정성, 2025Q4)</td></tr>
+      <tr><td class="l">보통주자본비율(CET1비율)</td><td class="l">보통주자본 ÷ 총 위험가중자산</td><td class="l">FISIS (자본적정성, 2025Q4)</td></tr>
+      <tr><td class="l">평균위험가중치</td><td class="l">자산군별 RWA ÷ 익스포저(가정·민감도)</td><td class="l">통일공시 기반 도출</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sub">2. 산출식: 유동화 표준방법(SEC-SA)</h3>
+  <p>풀의 소요자본율 \(K_A\)는 자산군의 평균위험가중치에 8%를 곱하여 도출하며, 부착점 \(A\)와 분리점 \(D\)로 정의되는 임의 트렌치의 위험가중치는 다음의 감독공식방식(Supervisory Formula Approach)을 통해 결정된다.</p>
+  <div class="eq">$$K_{\mathrm{SSFA}}=\frac{e^{a u}-e^{a l}}{a\,(u-l)},\qquad a=-\frac{1}{p\,K_A},\; u=D-K_A,\; l=\max(A-K_A,\,0)$$</div>
+  <p>여기서 감독조정계수 \(p\)는 비STC(단순·투명·표준) 유동화에 해당하는 1을 적용한다. 트렌치가 전적으로 \(K_A\)를 초과하면 위험가중치는 \(\max(12.5\,K_{\mathrm{SSFA}},\,15\%)\)로, 전적으로 \(K_A\) 이하이면 1,250%로 산정하며, 두 구간에 걸치는 경우 각 구간의 비중으로 가중평균한다. SRT 이후 은행이 부담하는 위험가중자산은 보유 우선손실 트렌치와 보유 선순위 트렌치의 위험가중자산을 합산한 값이며, 이전된 메자닌은 0으로 처리한다. 경감액은 \(\Delta RWA = \text{사전 RWA} - \text{사후 RWA}\)로 정의하고, 이를 절감 요구자본(\(\Delta RWA \times 8\%\))과 보통주자본비율 변화로 환산한다.</p>
+
+  <h3 class="sub">3. 가정과 민감도</h3>
+  <p>거래구조는 바젤위원회가 제시한 표준적 형태를 따르되, 우선손실 트렌치를 2% 보유하는 기본 시나리오와 1%로 축소하는 적극 시나리오를 병행하여 가설 2의 구조 민감도를 검증한다. 자산군별 익스포저가 공시에서 일관되게 관측되지 않으므로 평균위험가중치는 국내 내부등급법(Internal Ratings-Based Approach)의 통상적 수준을 기준값으로 가정하되, 통일공시의 「전체 표준방법 적용」 항목으로 도출한 함축 평균위험가중치가 기업 익스포저 기준 59~81%에 분포하여 기준 가정(75%)을 뒷받침함을 확인하였다. 아울러 평균위험가중치를 45%에서 100%까지 변화시킨 민감도분석을 〈표 4〉에 함께 제시한다.</p>
+
+  <!-- 5 -->
+  <h2 class="sec"><span class="no">Ⅴ.</span>실증결과</h2>
+  <h3 class="sub">1. 자산군별 자본경감 효과의 이질성</h3>
+  <p>대표적 단일 은행의 자산군별 위험가중자산에 기본 시나리오를 적용한 결과는 〈그림 2〉 및 〈표 2〉와 같다. 위험가중치가 높은 기업과 기타소매(평균위험가중치 75% 가정)에서는 29.9%의 위험가중자산 경감이 나타난 반면, 위험가중치가 낮은 주택담보대출(35%)에서는 은행이 보유하는 우선손실 트렌치의 1,250% 부담이 원래의 낮은 위험가중치를 상회하면서 경감효과가 −9.1%로 음(−)으로 전환되었다. 이는 가설 1을 지지하며, 합리적 은행이라면 SRT의 대상을 고위험가중 자산으로 선별할 것임을 시사한다.</p>
+  <figure>
+    <svg viewBox="0 0 680 270" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="자산군별 위험가중자산 경감률">
+      <line x1="150" y1="30" x2="150" y2="210" stroke="#cdd5e0"/>
+      <line x1="150" y1="150" x2="650" y2="150" stroke="#1f2733" stroke-width="1.2"/>
+      <text class="svgts" x="142" y="40" text-anchor="end">+40%</text>
+      <text class="svgts" x="142" y="105" text-anchor="end">+20%</text>
+      <text class="svgts" x="142" y="154" text-anchor="end">0</text>
+      <text class="svgts" x="142" y="195" text-anchor="end">−10%</text>
+      <rect x="185" y="75.25" width="80" height="74.75" fill="#1d3b6e"/><text class="svgts" x="225" y="68" text-anchor="middle">+29.9%</text><text class="svgt" x="225" y="168" text-anchor="middle">기업</text>
+      <rect x="305" y="150" width="80" height="22.75" fill="#b3261e"/><text class="svgts" x="345" y="188" text-anchor="middle">−9.1%</text><text class="svgt" x="345" y="210" text-anchor="middle">주택담보</text>
+      <rect x="425" y="75.25" width="80" height="74.75" fill="#1d3b6e"/><text class="svgts" x="465" y="68" text-anchor="middle">+29.9%</text><text class="svgt" x="465" y="168" text-anchor="middle">기타소매</text>
+      <rect x="545" y="114.25" width="80" height="35.75" fill="#0f766e"/><text class="svgts" x="585" y="107" text-anchor="middle">+14.3%</text><text class="svgt" x="585" y="168" text-anchor="middle">특수금융</text>
+    </svg>
+    <figcaption><b>〈그림 2〉</b> 자산군별 위험가중자산 경감률(기본 시나리오). 위험가중치가 낮은 주택담보대출에서만 효과가 음(−)으로 전환된다.</figcaption>
+  </figure>
+  <div class="tw">
+  <table>
+    <caption><b>〈표 2〉</b> 자산군별 자본경감 시뮬레이션(대표 은행, 단위: 억 원)</caption>
+    <thead><tr><th class="l">자산군 (평균위험가중치)</th><th>사전 RWA</th><th>사후 RWA</th><th>경감률(기본)</th><th>경감률(적극)</th></tr></thead>
+    <tbody>
+      <tr><td class="l">기업 (75%)</td><td>409,616</td><td>287,228</td><td class="pos">29.9%</td><td class="pos">46.5%</td></tr>
+      <tr><td class="l">소매·주택담보 (35%)</td><td>132,151</td><td>144,233</td><td class="neg">−9.1%</td><td class="pos">26.6%</td></tr>
+      <tr><td class="l">소매·기타 (75%)</td><td>234,450</td><td>164,399</td><td class="pos">29.9%</td><td class="pos">46.5%</td></tr>
+      <tr><td class="l">특수금융 (100%)</td><td>40,465</td><td>34,659</td><td class="pos">14.3%</td><td class="pos">26.8%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sub">2. 전 은행 확장과 금융통계정보시스템(FISIS) 교차검증</h3>
+  <p>동일한 절차를 국내 12개 은행에 적용하되, 주택담보대출을 제외하고 기업·기타소매·특수금융 익스포저에만 기본 시나리오를 적용하였다. 공시에서 추출한 총 위험가중자산은 FISIS 표준값과 대부분 ±3% 이내에서, 보통주자본비율은 아홉 개 은행에서 ±0.4%포인트 이내에서 일치하여 본 연구가 사용한 공시 추출 자료의 신뢰성이 독립적으로 확인되었다. 그 결과는 〈표 3〉 및 〈그림 3〉과 같으며, 자산구성이 상이함에도 모든 은행에서 일관되게 의미 있는 자본경감과 보통주자본비율 상승이 관측되었다.</p>
+  <div class="tw">
+  <table>
+    <caption><b>〈표 3〉</b> 국내 12개 은행 SRT 자본경감(주택담보 제외·기본 시나리오, 단위: 조 원). 총RWA·CET1비율은 FISIS(2025Q4). ΔRWA 내림차순.</caption>
+    <thead><tr><th class="l">은행</th><th>총 RWA</th><th>CET1비율(%)</th><th>ΔRWA</th><th>ΔRWA/총</th><th>新 CET1(%)</th><th>증가(%p)</th></tr></thead>
+    <tbody>
+      <tr><td class="l">기업은행</td><td>264.1</td><td>11.48</td><td>53.0</td><td>20.1%</td><td>14.36</td><td class="pos">+2.88</td></tr>
+      <tr><td class="l">신한</td><td>230.1</td><td>14.57</td><td>48.8</td><td>21.2%</td><td>18.49</td><td class="pos">+3.92</td></tr>
+      <tr><td class="l">산업은행</td><td>358.5</td><td>13.40</td><td>39.5</td><td>11.0%</td><td>15.06</td><td class="pos">+1.66</td></tr>
+      <tr><td class="l">국민</td><td>240.7</td><td>14.91</td><td>38.3</td><td>15.9%</td><td>17.73</td><td class="pos">+2.82</td></tr>
+      <tr><td class="l">하나</td><td>205.1</td><td>16.42</td><td>37.9</td><td>18.5%</td><td>20.15</td><td class="pos">+3.73</td></tr>
+      <tr><td class="l">우리</td><td>186.1</td><td>14.13</td><td>29.9</td><td>16.1%</td><td>16.83</td><td class="pos">+2.70</td></tr>
+      <tr><td class="l">농협</td><td>148.6</td><td>15.23</td><td>20.7</td><td>13.9%</td><td>17.69</td><td class="pos">+2.46</td></tr>
+      <tr><td class="l">부산</td><td>35.9</td><td>14.61</td><td>7.1</td><td>19.8%</td><td>18.20</td><td class="pos">+3.59</td></tr>
+      <tr><td class="l">경남</td><td>24.7</td><td>12.86</td><td>5.1</td><td>20.6%</td><td>16.18</td><td class="pos">+3.32</td></tr>
+      <tr><td class="l">수협</td><td>21.1</td><td>16.66</td><td>4.3</td><td>20.4%</td><td>20.87</td><td class="pos">+4.21</td></tr>
+      <tr><td class="l">광주</td><td>14.7</td><td>14.92</td><td>2.8</td><td>19.0%</td><td>18.48</td><td class="pos">+3.56</td></tr>
+      <tr><td class="l">제주</td><td>3.7</td><td>13.32</td><td>0.8</td><td>21.6%</td><td>17.17</td><td class="pos">+3.85</td></tr>
+      <tr class="tot"><td class="l">합계 / 평균</td><td>1,733.4</td><td>—</td><td>288.4</td><td>16.6%</td><td>—</td><td class="pos">+3.2</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <figure>
+    <svg viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="은행별 보통주자본비율 상승폭">
+      <line x1="70" y1="20" x2="70" y2="250" stroke="#cdd5e0"/>
+      <line x1="70" y1="250" x2="670" y2="250" stroke="#1f2733" stroke-width="1.2"/>
+      <text class="svgts" x="62" y="55" text-anchor="end">+6%p</text>
+      <text class="svgts" x="62" y="121" text-anchor="end">+4%p</text>
+      <text class="svgts" x="62" y="187" text-anchor="end">+2%p</text>
+      <text class="svgts" x="62" y="253" text-anchor="end">0</text>
+      <rect x="80" y="111.1" width="40" height="138.9" fill="#0f766e"/><text class="svgts" x="100" y="104" text-anchor="middle">4.21</text><text class="svgts" x="100" y="266" text-anchor="middle">수협</text>
+      <rect x="133" y="120.6" width="40" height="129.4" fill="#0f766e"/><text class="svgts" x="153" y="113" text-anchor="middle">3.92</text><text class="svgts" x="153" y="266" text-anchor="middle">신한</text>
+      <rect x="186" y="122.9" width="40" height="127.1" fill="#0f766e"/><text class="svgts" x="206" y="116" text-anchor="middle">3.85</text><text class="svgts" x="206" y="266" text-anchor="middle">제주</text>
+      <rect x="239" y="126.9" width="40" height="123.1" fill="#0f766e"/><text class="svgts" x="259" y="120" text-anchor="middle">3.73</text><text class="svgts" x="259" y="266" text-anchor="middle">하나</text>
+      <rect x="292" y="131.5" width="40" height="118.5" fill="#0f766e"/><text class="svgts" x="312" y="124" text-anchor="middle">3.59</text><text class="svgts" x="312" y="266" text-anchor="middle">부산</text>
+      <rect x="345" y="132.5" width="40" height="117.5" fill="#0f766e"/><text class="svgts" x="365" y="125" text-anchor="middle">3.56</text><text class="svgts" x="365" y="266" text-anchor="middle">광주</text>
+      <rect x="398" y="140.4" width="40" height="109.6" fill="#3f7fd6"/><text class="svgts" x="418" y="133" text-anchor="middle">3.32</text><text class="svgts" x="418" y="266" text-anchor="middle">경남</text>
+      <rect x="451" y="155.0" width="40" height="95.0" fill="#3f7fd6"/><text class="svgts" x="471" y="148" text-anchor="middle">2.88</text><text class="svgts" x="471" y="266" text-anchor="middle">기업</text>
+      <rect x="504" y="156.9" width="40" height="93.1" fill="#3f7fd6"/><text class="svgts" x="524" y="150" text-anchor="middle">2.82</text><text class="svgts" x="524" y="266" text-anchor="middle">국민</text>
+      <rect x="557" y="160.9" width="40" height="89.1" fill="#3f7fd6"/><text class="svgts" x="577" y="154" text-anchor="middle">2.70</text><text class="svgts" x="577" y="266" text-anchor="middle">우리</text>
+      <rect x="610" y="168.8" width="40" height="81.2" fill="#3f7fd6"/><text class="svgts" x="630" y="162" text-anchor="middle">2.46</text><text class="svgts" x="630" y="266" text-anchor="middle">농협</text>
+      <rect x="663" y="195.2" width="40" height="54.8" fill="#94a3b8"/><text class="svgts" x="683" y="188" text-anchor="middle">1.66</text><text class="svgts" x="683" y="266" text-anchor="middle">산업</text>
+    </svg>
+    <figcaption><b>〈그림 3〉</b> SRT 도입 시 은행별 보통주자본비율 상승폭(%포인트, FISIS 2025Q4 기준). 자산구성과 무관하게 전 은행에서 +1.7~+4.2%포인트의 자본여력 확충이 추정된다.</figcaption>
+  </figure>
+  <div class="key">
+    <h4>주요 결과 요약</h4>
+    <ul>
+      <li>합산 위험가중자산 경감액 약 288조 원(대상자산 대비 평균 16.6%), 절감 요구자본 약 23조 원(최저자본 8% 기준).</li>
+      <li>보통주자본비율 상승 +1.7~+4.2%포인트(평균 약 +3.2%포인트). 절대 경감액은 기업여신 비중이 큰 기업은행(약 53조 원)·신한·산업은행·국민·하나에 집중.</li>
+      <li>공시 추출치와 금융통계정보시스템(FISIS) 표준값이 대부분 ±3%·±0.4%포인트 이내로 일치 → 자료 신뢰성의 독립적 확인.</li>
+    </ul>
+  </div>
+
+  <h3 class="sub">3. 평균위험가중치 민감도분석</h3>
+  <p>경감률은 자산군의 평균위험가중치에 좌우되므로, 기업 익스포저의 평균위험가중치를 45%에서 100%까지 변화시켜 경감률의 안정성을 점검하였다(〈표 4〉). 경감률은 평균위험가중치 55~85% 구간에서 기본 시나리오 기준 24~35%로 비교적 안정적이며, 함축 평균위험가중치 분포(59~81%)가 이 구간에 놓여 기준 결과의 강건성을 뒷받침한다.</p>
+  <div class="tw">
+  <table>
+    <caption><b>〈표 4〉</b> 기업 익스포저 평균위험가중치별 경감률(민감도)</caption>
+    <thead><tr><th>평균위험가중치</th><th>45%</th><th>55%</th><th>65%</th><th>75%</th><th>85%</th><th>100%</th></tr></thead>
+    <tbody>
+      <tr><td class="l">경감률(기본·우선손실 2%)</td><td>15.1%</td><td>30.5%</td><td>34.5%</td><td>29.9%</td><td>24.0%</td><td>14.3%</td></tr>
+      <tr><td class="l">경감률(적극·우선손실 1%)</td><td>42.9%</td><td>53.3%</td><td>53.7%</td><td>46.5%</td><td>38.7%</td><td>26.8%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- 6 -->
+  <h2 class="sec"><span class="no">Ⅵ.</span>논의 및 정책 함의</h2>
+  <p>분석 결과가 가장 분명하게 보여주는 것은 SRT의 자본경감 효과가 자산의 위험가중치 수준에 강하게 조건부적이라는 사실이다. 위험가중치가 낮은 주택담보대출에서 경감효과가 음(−)으로 전환되는 비대칭은 합리적 은행이 SRT 대상을 고위험가중 자산으로 선별할 것임을 시사하며, 전 세계 SRT 기초자산의 약 75%가 기업대출에 집중되어 있다는 바젤위원회의 관찰과도 부합한다. 따라서 국내에 SRT가 도입되더라도 그 거래는 가계 주택담보보다는 기업대출과 특수금융을 중심으로 형성될 것으로 예측된다.</p>
+  <p>둘째, 우선손실 트렌치의 보유 두께라는 거래설계 변수가 경감효과의 크기를 결정적으로 좌우한다는 결과는 감독정책의 설계 지점을 명확히 가리킨다. 보유 우선손실을 2%에서 1%로 줄이는 것만으로 기업대출의 경감률이 29.9%에서 46.5%로 상승한다는 사실은, 은행이 위험을 거의 이전하지 않으면서도 과도한 자본경감을 누리는 규제차익의 가능성을 의미한다. 실제로 유럽과 영국의 감독당국은 위험이전과 자본경감의 상응성을 사전에 점검하여 그 효과가 균형을 잃은 경우 높은 위험가중치를 부과하거나 추가자본을 요구하는 장치를 운영하고 있으며, 영국 건전성감독청(PRA)은 메자닌 위험의 최소 이전 비중과 우선손실 보유 한도를 명시적으로 규정한다.</p>
+  <p>셋째, 고위험가중 자산을 중심으로 한 SRT가 12개 은행 평균 약 3.2%포인트의 보통주자본비율 상승과 합산 약 288조 원의 위험가중자산 경감을 가져오며 그 효과가 시중·지방·특수은행 전반에서 일관되게 관측된다는 점은, SRT가 증자를 대체하는 자본확충 수단으로서 국내 은행권 전반에 실질적 의미를 가질 수 있음을 보여준다. 이렇게 풀려난 자본여력은 생산적 부문에 대한 추가 신용공급으로 전환될 잠재력을 가지나, 그 편익은 위험이 비은행금융중개기관(NBFI)으로 이전되는 과정에서 발생하는 경기순응성과 상호연계성 및 차환위험을 적절히 통제한다는 전제 위에서만 온전히 실현될 수 있다.</p>
+
+  <!-- 7 -->
+  <h2 class="sec"><span class="no">Ⅶ.</span>결론</h2>
+  <p>본 연구는 공개 공시자료와 금융통계정보시스템(FISIS)에 바젤 유동화 표준방법(SEC-SA)을 적용하여, 아직 거래가 부재한 국내 환경에서 중요위험이전(SRT) 합성증권화의 자본경감 효과를 자산군별·은행별로 정량화하였다. 효과는 고위험가중 기업대출을 중심으로 의미 있게 나타나되 자산의 위험가중치와 거래설계에 강하게 조건부적이며, 12개 은행 합산 기준 약 288조 원의 위험가중자산 경감과 평균 약 3.2%포인트의 보통주자본비율 상승이 추정되었다. 정책적으로 국내 SRT 도입의 성패는 거래의 허용 여부 자체가 아니라 위험이전의 진정성과 자본경감의 상응성을 담보하는 구체적 감독 가이드라인의 정비에 달려 있으며, 현행 은행업감독업무시행세칙이 기본원칙만을 규정하고 있는 공백을 메워 주요 신용리스크의 이전 기준과 트렌치 보유·이전 한도 및 공시의무를 명문화하는 것이 선결과제이다. 본 연구는 평균위험가중치 가정을 신용리스크 공시의 익스포저 자료로 대체하고 자본–대출 채널의 인과추정을 결합하는 후속 연구로 자연스럽게 확장될 수 있다.</p>
+
+  <!-- glossary -->
+  <h2 class="sec"><span class="no"></span>약어표 (Glossary)</h2>
+  <div class="tw">
+  <table class="gloss">
+    <thead><tr><th class="l">약어</th><th class="l">영문 풀 네임</th><th class="l">우리말</th></tr></thead>
+    <tbody>
+      <tr><td>SRT</td><td>Significant Risk Transfer</td><td>중요위험이전(합성증권화)</td></tr>
+      <tr><td>RWA</td><td>Risk-Weighted Assets</td><td>위험가중자산</td></tr>
+      <tr><td>CET1</td><td>Common Equity Tier 1</td><td>보통주자본(비율)</td></tr>
+      <tr><td>SEC-SA</td><td>Securitisation Standardised Approach</td><td>유동화 표준방법</td></tr>
+      <tr><td>SEC-IRBA</td><td>Securitisation Internal Ratings-Based Approach</td><td>유동화 내부등급법</td></tr>
+      <tr><td>SEC-ERBA</td><td>Securitisation External Ratings-Based Approach</td><td>유동화 외부신용등급법</td></tr>
+      <tr><td>SSFA</td><td>Supervisory Formula Approach</td><td>감독공식방식</td></tr>
+      <tr><td>FISIS</td><td>Financial Statistics Information System</td><td>금융통계정보시스템</td></tr>
+      <tr><td>NBFI</td><td>Non-Bank Financial Intermediary</td><td>비은행금융중개기관</td></tr>
+      <tr><td>PD / LGD</td><td>Probability of Default / Loss Given Default</td><td>부도확률 / 부도시 손실률</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- refs -->
+  <h2 class="sec"><span class="no"></span>참고문헌</h2>
+  <ol class="refs">
+    <li>Basel Committee on Banking Supervision (2026), <i>Analytical report on synthetic risk transfers</i>, Bank for International Settlements, February.</li>
+    <li>Basel Committee on Banking Supervision, <i>CRE40: Securitisation — general provisions (SEC-IRBA, SEC-ERBA, SEC-SA)</i>, Basel Framework.</li>
+    <li>신용상 (2024), 「중요위험이전(SRT) 증권화와 은행 자본비용 절감 및 자본건전성 제고 효과 분석」, 한국금융연구원 연구보고서 2024-16.</li>
+    <li>European Systemic Risk Board (2023; 2024), <i>The European significant risk transfer securitisation market</i>.</li>
+    <li>European Banking Authority (2014; 2017; 2020; 2025), <i>Reports and Guidelines on Significant Credit Risk Transfer</i>.</li>
+    <li>International Monetary Fund (2024), <i>Global Financial Stability Report</i>.</li>
+    <li>Bank of England, Prudential Regulation Authority (2025), <i>Supervisory statement on significant risk transfer</i>.</li>
+    <li>금융감독원, 「은행업감독업무시행세칙」 별표 3 (자기자본비율 산출기준), 유동화 정의 및 합성유동화 운영요건.</li>
+    <li>전국은행연합회, 「은행경영통일공시 — 은행현황(시장규율공시)」, 각 은행 2026년 1분기(농협은행 2024년 상반기). — 자산유형별 위험가중자산.</li>
+    <li>금융감독원, 「금융통계정보시스템(FISIS)」 통계표 자본적정성·BIS비율, 2025년 4분기. https://fisis.fss.or.kr — 총 위험가중자산·자기자본비율.</li>
+  </ol>
+
+  <p class="disc">※ 본 문서는 연구설계·방법론·결과를 정리한 working draft이다. 시뮬레이션의 평균위험가중치는 잠정 가정값이며, 산출 수치는 가정에 조건부적인 추정으로 확정적 실증 결과가 아니다. 공시 및 공개 통계 외 비공개 감독자료는 사용하지 않았다.</p>
+
+</main>
+
+<footer>
+  <div><b>중요위험이전(SRT) 합성증권화의 국내 은행 자본경감 효과에 관한 실증 분석</b> · Working Paper v1.0 · 2026</div>
+  <div style="margin-top:8px">🔗 공유 링크: <code>https://sdkparkforbi.github.io/srt-study/</code></div>
+  <div style="margin-top:8px;font-size:.78rem;color:#9fb6dd">자료: 은행연합회 통일공시 + 금융감독원 FISIS(2025Q4) · 방법론: 바젤위원회(2026) / Basel CRE40 SEC-SA · 🤖 생성형 AI 협업 제작 · 쉬운 그림책 버전: srt-fairytale</div>
+</footer>
+
+</div>
+<script>
+  const bar=document.getElementById('bar');
+  addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';});
+</script>
+</body>
+</html>

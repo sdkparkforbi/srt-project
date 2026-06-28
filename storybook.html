@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>갑옷을 벗은 곰돌이 은행 — SRT 마법 이야기 | 연구 드래프트</title>
+<meta name="description" content="중요위험이전(SRT) 증권화의 국내 은행 자본경감·대출확대 효과 연구설계 — 감독데이터 기반 반사실 시뮬레이션과 자본–대출 채널 인과추정. 동화 그림책으로 풀어낸 논문 드래프트." />
+<meta property="og:title" content="갑옷을 벗은 곰돌이 은행 — SRT 마법 이야기" />
+<meta property="og:description" content="동화로 풀어낸 SRT 증권화 연구 드래프트: 방법론·예상결과·잠정결론" />
+<meta property="og:image" content="assets/thumbnail.png" />
+<meta property="og:type" content="article" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Jua&display=swap" rel="stylesheet" />
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$', '$$']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+  :root{
+    --cream:#FFF7EA; --paper:#FFFDF8; --ink:#33384D; --soft:#6B6F86;
+    --coral:#E8775A; --coral-d:#cf5a3e; --teal:#2E8B8B; --gold:#F2B441;
+    --sky:#8FC3E8; --leaf:#7FB069; --plum:#9B6A9E; --line:#EBD9BE;
+    --note:#FFF3D6; --note-bd:#E9C97A;
+    --shadow:0 10px 30px rgba(80,60,30,.13);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 600px at 80% -5%, #FFE9C8 0%, transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, #FCE0D7 0%, transparent 55%),
+      var(--cream);
+    color:var(--ink); font-family:'Noto Sans KR',sans-serif; line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px; margin:0 auto; padding:0 20px 90px;}
+  /* progress bar */
+  #bar{position:fixed; top:0; left:0; height:5px; width:0;
+    background:linear-gradient(90deg,var(--coral),var(--gold),var(--teal)); z-index:50; transition:width .1s;}
+  /* cover */
+  .cover{min-height:96vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; position:relative; padding:40px 0;}
+  .badge{font-family:'Jua',sans-serif; letter-spacing:.5px; background:#fff; border:2px dashed var(--coral); color:var(--coral-d);
+    padding:7px 16px; border-radius:30px; font-size:.92rem; box-shadow:var(--shadow);}
+  .cover h1{font-family:'Gaegu',cursive; font-weight:700; font-size:clamp(2.6rem,7vw,5rem); margin:.3em 0 .1em; color:var(--ink); line-height:1.05;}
+  .cover h1 em{color:var(--coral); font-style:normal;}
+  .cover .sub{font-family:'Jua',sans-serif; color:var(--teal); font-size:clamp(1rem,2.4vw,1.45rem); margin-top:.2em;}
+  .cover .acad{max-width:760px; color:var(--soft); font-size:.98rem; margin:22px auto 0; line-height:1.7;}
+  .cover .meta{margin-top:18px; color:var(--soft); font-size:.86rem;}
+  .scrollcue{margin-top:34px; font-family:'Gaegu',cursive; font-size:1.2rem; color:var(--coral); animation:bob 1.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+  /* chapters */
+  .chapter{background:var(--paper); border-radius:26px; box-shadow:var(--shadow); margin:46px 0; padding:34px clamp(20px,4vw,52px);
+    border:1px solid var(--line); position:relative; overflow:hidden;}
+  .chapter::before{content:""; position:absolute; left:0; top:0; bottom:0; width:8px;
+    background:linear-gradient(var(--coral),var(--gold));}
+  .chip{display:inline-flex; align-items:center; gap:8px; font-family:'Jua',sans-serif; font-size:.82rem;
+    background:var(--note); border:1px solid var(--note-bd); color:#9a7320; padding:5px 13px; border-radius:20px;}
+  .chapter h2{font-family:'Gaegu',cursive; font-weight:700; font-size:clamp(1.8rem,4.2vw,2.7rem); margin:.35em 0 .15em; line-height:1.15;}
+  .spread{display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:center;}
+  @media(max-width:760px){ .spread{grid-template-columns:1fr;} }
+  .art{width:100%; border-radius:18px; background:linear-gradient(160deg,#fff,#FFF2DD); border:1px solid var(--line); padding:10px;}
+  .story{font-size:1.08rem;}
+  .story p{margin:.5em 0 .9em;}
+  .story .big{font-family:'Gaegu',cursive; font-size:1.5rem; color:var(--coral-d); line-height:1.4;}
+  .pagenum{position:absolute; right:22px; bottom:14px; font-family:'Gaegu',cursive; color:var(--line); font-size:1.6rem;}
+  /* research note */
+  details.note{margin-top:18px; background:#FBFCFF; border:1px solid #D9E4F2; border-radius:14px; padding:0 18px;}
+  details.note[open]{padding-bottom:14px;}
+  details.note summary{cursor:pointer; list-style:none; padding:13px 0; font-family:'Jua',sans-serif; color:var(--teal); font-size:.98rem; display:flex; align-items:center; gap:8px;}
+  details.note summary::-webkit-details-marker{display:none;}
+  details.note summary::before{content:"📋"; }
+  details.note summary .x{margin-left:auto; color:var(--soft); font-size:.8rem;}
+  .note h4{margin:10px 0 4px; color:var(--ink); font-size:.98rem; font-family:'Jua',sans-serif;}
+  .note p, .note li{font-size:.94rem; color:#3c4258; line-height:1.7;}
+  .hyp{background:#fff; border-left:3px solid var(--coral); padding:8px 13px; border-radius:8px; margin:8px 0;}
+  .hyp b{color:var(--coral-d);}
+  table{width:100%; border-collapse:collapse; margin:12px 0; font-size:.9rem; background:#fff; border-radius:10px; overflow:hidden;}
+  th,td{padding:9px 11px; border:1px solid #E7E2D5; text-align:left; vertical-align:top;}
+  th{background:#FBEFD6; font-family:'Jua',sans-serif; font-weight:400; color:#7a5b16;}
+  tr:nth-child(even) td{background:#FCFBF7;}
+  .eq{background:#fff; border:1px dashed #cdd6e6; border-radius:10px; padding:6px 14px; margin:10px 0; overflow-x:auto;}
+  .tag{display:inline-block; font-size:.74rem; background:var(--teal); color:#fff; padding:2px 9px; border-radius:20px; font-family:'Jua',sans-serif; margin-right:5px;}
+  /* abstract banner */
+  .abs{background:linear-gradient(160deg,#FFF3D6,#FFE6D2); border:2px dashed var(--coral); border-radius:24px; padding:30px clamp(20px,4vw,46px); margin:30px 0;}
+  .abs h3{font-family:'Gaegu',cursive; font-size:2rem; margin:0 0 .2em; color:var(--coral-d);}
+  .abs .once{font-family:'Gaegu',cursive; font-size:1.25rem; color:var(--teal);}
+  /* toc */
+  .toc{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin:24px 0;}
+  .toc a{display:block; background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 16px; text-decoration:none; color:var(--ink); transition:transform .15s, box-shadow .15s;}
+  .toc a:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
+  .toc a .n{font-family:'Gaegu',cursive; font-size:1.6rem; color:var(--coral);}
+  .toc a .t{font-family:'Jua',sans-serif; display:block; font-size:.96rem;}
+  .toc a .d{font-size:.8rem; color:var(--soft);}
+  /* refs/footer */
+  .refs{font-size:.84rem; color:var(--soft);}
+  .refs li{margin:5px 0;}
+  footer{text-align:center; color:var(--soft); font-size:.85rem; margin-top:50px; line-height:1.8;}
+  .pill{display:inline-block; background:#fff; border:1px solid var(--line); border-radius:20px; padding:6px 14px; margin:4px; font-size:.84rem;}
+  .disc{background:#FFF0EE; border:1px solid #F3C9C0; border-radius:14px; padding:16px 20px; font-size:.86rem; color:#8a4536; margin:18px 0;}
+  a.inline{color:var(--teal); text-decoration:underline dotted;}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+
+  <!-- ===== COVER ===== -->
+  <header class="cover">
+    <span class="badge">📚 연구 드래프트 · 동화 그림책 에디션 · 2026</span>
+    <h1>갑옷을 벗은<br><em>곰돌이 은행</em></h1>
+    <div class="sub">~ SRT 마법으로 마을을 구한 이야기 ~</div>
+    <p class="acad">
+      <b>중요위험이전(SRT) 증권화의 국내 은행 자본경감·대출확대 효과에 관한 연구설계</b><br>
+      — 감독(supervisory) 미시데이터 기반 <b>반사실 시뮬레이션</b>과 <b>자본–대출 채널 인과추정</b>을 중심으로 —
+    </p>
+    <p class="meta">Working Draft v0.1 · 방법론 · 예상결과 · 잠정결론 · 4개 연구설계 통합</p>
+    <div class="scrollcue">↓ 책장을 넘겨보세요 ↓</div>
+  </header>
+
+  <!-- ===== ABSTRACT ===== -->
+  <section class="abs" id="abstract">
+    <h3>📖 들어가는 글 (초록)</h3>
+    <p class="once">옛날 옛적, 자본(資本) 왕국에는 무거운 갑옷을 입은 은행들이 살았어요.</p>
+    <p>갑옷이 무거울수록 은행은 마을 사람들에게 빌려줄 힘을 잃었습니다. 그러던 어느 날, 바다 건너에서 <b>SRT</b>라는 마법이 전해졌지요. 위험이라는 <b>도깨비</b>만 쏙 떼어 용감한 기사(투자자)에게 맡기면, 은행은 보물(자산)을 그대로 지킨 채 갑옷을 가볍게 할 수 있다는 마법이었어요.</p>
+    <p style="font-size:.95rem;color:#5a4a2c;margin-top:14px;">
+      <b>학술 초록.</b> 본 연구는 한국에 아직 부재한 중요위험이전(Significant Risk Transfer, SRT) 합성증권화가 도입될 경우의 효과를, 금융감독 미시데이터를 활용해 정량화하는 연구설계를 제시한다. 한국에는 처치집단(SRT를 실행한 은행)이 존재하지 않으므로, 본 연구는 (i) 전(全) 은행·전 포트폴리오에 대한 <b>반사실(counterfactual) 자본경감 시뮬레이션</b>을 본체로 하고, (ii) 규제자본 변화를 자연실험으로 활용한 <b>자본–대출 채널의 인과추정</b>, (iii) 발행유인·도입 예측, (iv) 위험이전의 시스템리스크 함의를 보강 설계로 결합한다. 기여는 국내 최초의 감독데이터 기반 전수(全數) 정량화와 자본–대출 전이의 인과 식별에 있다.
+    </p>
+  </section>
+
+  <!-- ===== TOC ===== -->
+  <section class="chapter" id="toc">
+    <span class="chip">차례</span>
+    <h2>이야기의 지도 🗺️</h2>
+    <div class="toc">
+      <a href="#c1"><span class="n">1</span><span class="t">무거운 갑옷</span><span class="d">문제의식 · 서론</span></a>
+      <a href="#c2"><span class="n">2</span><span class="t">SRT 마법의 비밀</span><span class="d">개념 · 기존 유동화와 차이</span></a>
+      <a href="#c3"><span class="n">3</span><span class="t">부엉이 박사의 큰 장부</span><span class="d">데이터 · 연구질문</span></a>
+      <a href="#c4"><span class="n">4</span><span class="t">첫째 실험: 갑옷 무게재기</span><span class="d">설계1 · 반사실 시뮬레이션</span></a>
+      <a href="#c5"><span class="n">5</span><span class="t">둘째 실험: 빵집의 비밀</span><span class="d">설계2 · 자본→대출 채널</span></a>
+      <a href="#c6"><span class="n">6</span><span class="t">셋째 실험: 누가 먼저?</span><span class="d">설계3 · 발행유인·도입예측</span></a>
+      <a href="#c7"><span class="n">7</span><span class="t">넷째 실험: 도깨비는 어디로</span><span class="d">설계4 · 시스템리스크</span></a>
+      <a href="#c8"><span class="n">8</span><span class="t">마을의 결말</span><span class="d">잠정결론</span></a>
+      <a href="#c9"><span class="n">9</span><span class="t">조심 또 조심</span><span class="d">데이터 윤리 · 한계</span></a>
+      <a href="#refs"><span class="n">+</span><span class="t">참고문헌</span><span class="d">References</span></a>
+    </div>
+  </section>
+
+  <!-- ===== CH1 ===== -->
+  <section class="chapter" id="c1">
+    <span class="chip">제1장 · 서론</span>
+    <h2>무거운 갑옷 🛡️</h2>
+    <div class="spread">
+      <div class="art">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="무거운 갑옷을 입고 힘들어하는 곰돌이 은행">
+          <rect width="400" height="320" rx="16" fill="#FFF2DD"/>
+          <circle cx="320" cy="60" r="30" fill="#F2B441" opacity=".5"/>
+          <!-- bear body -->
+          <ellipse cx="180" cy="250" rx="95" ry="55" fill="#cbb089" opacity=".4"/>
+          <rect x="120" y="150" width="120" height="120" rx="34" fill="#A9866B"/>
+          <!-- armor plates -->
+          <rect x="120" y="150" width="120" height="120" rx="34" fill="none" stroke="#7d8aa3" stroke-width="9"/>
+          <line x1="120" y1="195" x2="240" y2="195" stroke="#7d8aa3" stroke-width="7"/>
+          <line x1="120" y1="235" x2="240" y2="235" stroke="#7d8aa3" stroke-width="7"/>
+          <rect x="150" y="165" width="60" height="22" rx="6" fill="#9aa6bd"/>
+          <text x="180" y="181" font-size="13" text-anchor="middle" fill="#fff" font-family="Jua">RWA</text>
+          <!-- head -->
+          <circle cx="180" cy="115" r="46" fill="#A9866B"/>
+          <circle cx="148" cy="88" r="16" fill="#A9866B"/><circle cx="212" cy="88" r="16" fill="#A9866B"/>
+          <circle cx="148" cy="88" r="8" fill="#caa985"/><circle cx="212" cy="88" r="8" fill="#caa985"/>
+          <circle cx="166" cy="112" r="6" fill="#33384D"/><circle cx="194" cy="112" r="6" fill="#33384D"/>
+          <ellipse cx="180" cy="128" rx="9" ry="6" fill="#6b4f3a"/>
+          <path d="M165 140 q15 12 30 0" stroke="#5b4030" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- sweat -->
+          <path d="M225 95 q6 10 0 16 q-6 -6 0 -16Z" fill="#8FC3E8"/>
+          <!-- weights -->
+          <circle cx="95" cy="280" r="22" fill="#5b6275"/><text x="95" y="286" font-size="16" text-anchor="middle" fill="#fff" font-family="Jua">자본</text>
+          <circle cx="270" cy="285" r="20" fill="#5b6275"/><text x="270" y="291" font-size="13" text-anchor="middle" fill="#fff" font-family="Jua">규제</text>
+        </svg>
+      </div>
+      <div class="story">
+        <p class="big">"으샤… 갑옷이 너무 무거워서 한 발도 못 떼겠어!"</p>
+        <p>곰돌이 은행 <b>바니</b>는 규제라는 무거운 갑옷을 입고 있었어요. 갑옷이 두꺼울수록 마을 사람들에게 빵 살 돈, 가게 낼 돈을 빌려주기가 힘들어졌지요.</p>
+        <p>갑옷을 가볍게 하는 길은 둘뿐이었어요. <b>새 갑옷 천을 더 사오거나(증자)</b> — 너무 비싸요! — 아니면 <b>갑옷이 지켜야 할 위험 자체를 줄이는 것</b>이었답니다.</p>
+      </div>
+    </div>
+    <details class="note">
+      <summary>연구노트 — 문제의식 <span class="x">펼치기/접기</span></summary>
+      <h4>핵심 문제</h4>
+      <p>바젤 III 등 규제 강화와 RWA(위험가중자산) 증가로 국내 은행의 자본건전성 관리 부담이 커졌다. 자본비율을 맞추는 경로는 (a) 증자·이익유보(자본비용 큼, 주주가치 희석) 또는 (b) RWA 자체 축소다. SRT는 (b)의 정교한 수단이나 국내에는 제도·시장이 부재하다.</p>
+      <h4>연구 공백 & 기여</h4>
+      <p>국내 SRT 관련 선행연구는 사실상 미발간 정책자료 2건(KB금융경영연구소 2024; 신용상 2024)에 그친다. 본 연구는 <b>감독 미시데이터 기반 전수 정량화</b>와 <b>자본–대출 채널의 인과 식별</b>로 학술·정책 공백을 메운다.</p>
+      <div class="disc"><b>설계상 전제.</b> 한국에는 SRT를 실행한 은행(처치집단)이 0개이므로 사후 DiD형 인과 임팩트 추정은 불가능하다. 따라서 본체는 <b>반사실 시뮬레이션</b>이며, 인과 추정은 SRT가 작동할 <b>경로(자본→대출)</b>를 대상으로 한다.</p>
+    </details>
+    <div class="pagenum">1</div>
+  </section>
+
+  <!-- ===== CH2 ===== -->
+  <section class="chapter" id="c2">
+    <span class="chip">제2장 · 개념</span>
+    <h2>SRT 마법의 비밀 ✨</h2>
+    <div class="spread">
+      <div class="story">
+        <p class="big">"보물은 그대로 두고, <u>위험 도깨비만</u> 넘기는 거야!"</p>
+        <p>옛날 방식의 마법(전통적 유동화)은 <b>보물 상자(자산)를 통째로 팔아버리는 것</b>이었어요. 돈은 들어오지만 보물도 사라졌지요.</p>
+        <p>그런데 SRT 마법은 달랐어요. <b>보물은 곰돌이가 그대로 가진 채</b>, 보물에 붙은 <b>위험 도깨비만</b> 떼어 용감한 기사단(투자자)에게 맡겨요. 대신 곰돌이는 기사단에게 <b>고마움의 수수료(보증료)</b>를 주고요. 그러면 갑옷이 마법처럼 가벼워진답니다!</p>
+      </div>
+      <div class="art">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="보물은 두고 위험 도깨비만 기사에게 넘기는 SRT 마법">
+          <rect width="400" height="320" rx="16" fill="#EAF5F1"/>
+          <!-- treasure stays -->
+          <rect x="40" y="200" width="90" height="60" rx="8" fill="#C9912E"/>
+          <rect x="40" y="190" width="90" height="20" rx="6" fill="#E0A93B"/>
+          <circle cx="85" cy="215" r="8" fill="#FFF3D6"/>
+          <text x="85" y="285" font-size="13" text-anchor="middle" fill="#7a5b16" font-family="Jua">보물(자산)</text>
+          <!-- goblin flying -->
+          <g transform="translate(210,70)">
+            <ellipse cx="0" cy="0" rx="34" ry="30" fill="#9B6A9E"/>
+            <path d="M-30 -10 l-18 -14 l8 20Z" fill="#7d5380"/>
+            <path d="M30 -10 l18 -14 l-8 20Z" fill="#7d5380"/>
+            <circle cx="-12" cy="-4" r="6" fill="#fff"/><circle cx="12" cy="-4" r="6" fill="#fff"/>
+            <circle cx="-12" cy="-3" r="3" fill="#33384D"/><circle cx="12" cy="-3" r="3" fill="#33384D"/>
+            <path d="M-12 12 q12 10 24 0" stroke="#3c2540" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </g>
+          <text x="210" y="128" font-size="12" text-anchor="middle" fill="#6c4570" font-family="Jua">위험 도깨비</text>
+          <!-- arrow -->
+          <path d="M250 90 q60 0 75 80" stroke="#E8775A" stroke-width="4" fill="none" stroke-dasharray="6 6" marker-end="url(#ah)"/>
+          <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0 0 L8 5 L0 10Z" fill="#E8775A"/></marker></defs>
+          <!-- knight -->
+          <g transform="translate(330,210)">
+            <rect x="-22" y="-10" width="44" height="60" rx="14" fill="#2E8B8B"/>
+            <circle cx="0" cy="-26" r="18" fill="#cdebe7"/>
+            <rect x="-12" y="-34" width="24" height="14" rx="4" fill="#6fb3b0"/>
+            <rect x="-2" y="-50" width="4" height="14" fill="#E8775A"/>
+          </g>
+          <text x="330" y="282" font-size="13" text-anchor="middle" fill="#246b6b" font-family="Jua">기사(투자자)</text>
+          <text x="290" y="170" font-size="11" fill="#cf5a3e" font-family="Jua">수수료 ↩</text>
+        </svg>
+      </div>
+    </div>
+    <details class="note">
+      <summary>연구노트 — SRT vs 전통적 유동화 <span class="x">펼치기/접기</span></summary>
+      <table>
+        <tr><th>구분</th><th>전통적 유동화 (ABS/MBS)</th><th>합성 SRT</th></tr>
+        <tr><td>이전 대상</td><td>자산 + 위험 모두</td><td>신용위험만</td></tr>
+        <tr><td>자산 소유권</td><td>SPV 매각 → 대차대조표 제거</td><td>은행 계속 보유</td></tr>
+        <tr><td>수단</td><td>진정매각(true sale)</td><td>CDS·신용연계채권(CLN)·금융보증</td></tr>
+        <tr><td>주목적</td><td>자금조달 + 위험이전</td><td><b>요구자본(RWA) 절감</b></td></tr>
+        <tr><td>비용</td><td>발행·매각 비용</td><td>투자자에 보증수수료</td></tr>
+      </table>
+      <p>본 연구의 측정 대상은 <span class="tag">합성 SRT</span> 구조로, 통상 선순위/메자닌/우선손실 트렌치 중 <b>메자닌·우선손실 트렌치의 위험을 이전</b>한다.</p>
+    </details>
+    <div class="pagenum">2</div>
+  </section>
+
+  <!-- ===== CH3 ===== -->
+  <section class="chapter" id="c3">
+    <span class="chip">제3장 · 데이터 & 연구질문</span>
+    <h2>부엉이 박사의 큰 장부 🦉📕</h2>
+    <div class="spread">
+      <div class="art">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="모든 은행의 비밀이 적힌 큰 장부를 든 부엉이 박사">
+          <rect width="400" height="320" rx="16" fill="#F3EEFB"/>
+          <!-- book -->
+          <rect x="120" y="150" width="170" height="120" rx="8" fill="#5b6275"/>
+          <rect x="128" y="158" width="154" height="104" rx="4" fill="#FFFDF8"/>
+          <line x1="205" y1="158" x2="205" y2="262" stroke="#d8d2c4" stroke-width="2"/>
+          <g stroke="#bcaee0" stroke-width="3"><line x1="140" y1="178" x2="195" y2="178"/><line x1="140" y1="192" x2="195" y2="192"/><line x1="140" y1="206" x2="195" y2="206"/><line x1="215" y1="178" x2="270" y2="178"/><line x1="215" y1="192" x2="270" y2="192"/></g>
+          <text x="205" y="248" font-size="11" text-anchor="middle" fill="#9B6A9E" font-family="Jua">全 은행 감독데이터</text>
+          <!-- owl -->
+          <g transform="translate(95,95)">
+            <ellipse cx="0" cy="10" rx="48" ry="52" fill="#8a6d4f"/>
+            <ellipse cx="0" cy="18" rx="34" ry="38" fill="#c4a47e"/>
+            <circle cx="-17" cy="-2" r="18" fill="#fff"/><circle cx="17" cy="-2" r="18" fill="#fff"/>
+            <circle cx="-17" cy="-2" r="9" fill="#33384D"/><circle cx="17" cy="-2" r="9" fill="#33384D"/>
+            <circle cx="-14" cy="-5" r="3" fill="#fff"/><circle cx="20" cy="-5" r="3" fill="#fff"/>
+            <path d="M-8 12 l8 12 l8 -12Z" fill="#F2B441"/>
+            <path d="M-40 -34 l16 18 M40 -34 l-16 18" stroke="#8a6d4f" stroke-width="8" stroke-linecap="round"/>
+            <!-- glasses -->
+            <circle cx="-17" cy="-2" r="20" fill="none" stroke="#33384D" stroke-width="2"/><circle cx="17" cy="-2" r="20" fill="none" stroke="#33384D" stroke-width="2"/>
+          </g>
+        </svg>
+      </div>
+      <div class="story">
+        <p class="big">"이 큰 장부엔 왕국 모든 은행의 비밀이 적혀 있단다."</p>
+        <p>지혜로운 <b>부엉이 박사</b>에게는 특별한 장부가 있었어요. 어느 은행이 갑옷을 얼마나 무겁게 입었는지, 보물엔 위험이 얼마나 붙었는지 — 전부 적혀 있었지요.</p>
+        <p>부엉이 박사는 네 가지가 궁금했어요. ① 마법을 쓰면 갑옷이 <b>얼마나</b> 가벼워질까? ② 가벼워지면 정말 <b>더 많이 빌려줄까?</b> ③ <b>누가 먼저</b> 마법을 쓸까? ④ 넘긴 도깨비는 <b>어디로 가서</b> 무슨 일을 일으킬까?</p>
+      </div>
+    </div>
+    <details class="note">
+      <summary>연구노트 — 데이터 & 연구질문 <span class="x">펼치기/접기</span></summary>
+      <h4>데이터 (감독 미시데이터, 은행–분기 패널)</h4>
+      <p>익스포저 클래스별 RWA, 산출방식(IRB/표준방법), 세그먼트별 \(PD\!\cdot\!LGD\!\cdot\!EAD\), CET1/Tier1/총자본비율, 규제버퍼(최소선까지 거리), 대출증가율·세그먼트별 신규대출, NPL·충당금, ROE·자기자본비용.</p>
+      <h4>연구질문</h4>
+      <p><span class="tag">RQ1</span> 도입 시 RWA·자본비율·자본비용 경감 규모와 이질성?<br>
+      <span class="tag">RQ2</span> 자본제약 완화가 대출공급을 인과적으로 늘리는가?<br>
+      <span class="tag">RQ3</span> 어떤 은행이 SRT를 NPV(+)로 보고 먼저 발행하는가?<br>
+      <span class="tag">RQ4</span> 위험은 어디로 이전되며 금융안정 함의는?</p>
+    </details>
+    <div class="pagenum">3</div>
+  </section>
+
+  <!-- ===== CH4 — Design 1 ===== -->
+  <section class="chapter" id="c4">
+    <span class="chip">제4장 · 설계1 (본체)</span>
+    <h2>첫째 실험: 갑옷 무게 재기 ⚖️</h2>
+    <div class="spread">
+      <div class="story">
+        <p class="big">"마법을 걸면 갑옷이 얼마나 가벼워질까? 은행마다 다를걸?"</p>
+        <p>부엉이 박사는 모든 은행에 마법을 가상으로 걸어 보았어요. 그랬더니 신기하게도 — <b>두꺼운 갑옷을 입은 곰</b>, <b>위험 도깨비가 많이 붙은 곰</b>일수록 마법 효과가 컸답니다!</p>
+        <p>왕국 전체로 풀려난 갑옷 무게를 모으니, 마을에 빌려줄 수 있는 빵 살 돈이 <b>엄청나게</b> 늘어났어요.</p>
+      </div>
+      <div class="art">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="저울로 마법 전후 갑옷 무게를 재는 그림">
+          <rect width="400" height="320" rx="16" fill="#FFF1E4"/>
+          <line x1="200" y1="40" x2="200" y2="250" stroke="#9b8463" stroke-width="8" stroke-linecap="round"/>
+          <line x1="90" y1="80" x2="310" y2="80" stroke="#9b8463" stroke-width="8" stroke-linecap="round"/>
+          <!-- left heavy -->
+          <line x1="90" y1="80" x2="90" y2="150" stroke="#9b8463" stroke-width="3"/>
+          <rect x="55" y="150" width="70" height="46" rx="8" fill="#7d8aa3"/>
+          <text x="90" y="178" font-size="13" text-anchor="middle" fill="#fff" font-family="Jua">사전 RWA</text>
+          <!-- right light -->
+          <line x1="310" y1="80" x2="310" y2="110" stroke="#9b8463" stroke-width="3"/>
+          <rect x="285" y="110" width="50" height="30" rx="6" fill="#7FB069"/>
+          <text x="310" y="130" font-size="11" text-anchor="middle" fill="#fff" font-family="Jua">잔존</text>
+          <circle cx="200" cy="40" r="14" fill="#F2B441"/>
+          <text x="200" y="285" font-size="13" text-anchor="middle" fill="#9b6a2a" font-family="Jua">ΔRWA = 풀려난 자본</text>
+        </svg>
+      </div>
+    </div>
+    <details class="note" open>
+      <summary>연구노트 — 설계1: 반사실 자본경감 시뮬레이션 <span class="x">펼치기/접기</span></summary>
+      <div class="hyp"><b>H1 (이질성):</b> 자본경감률 \( \Delta RWA/RWA \) 은 IRB&gt;표준방법, RWA밀도 높을수록, 관리버퍼 작을수록 크다.</div>
+      <div class="hyp"><b>H2 (총량):</b> 시스템 전체 자본경감은 대출여력 \( \approx \Delta\text{자본}\times(1/\tau) \) 로 환산된다.</div>
+      <h4>방법: 바젤 증권화 자본규제(SEC-IRBA/SA) 적용</h4>
+      <p>은행 \(b\), 세그먼트 \(s\). 트렌치 부착점 \(a\)·분리점 \(d\) 설정 후 메자닌 \([a,d]\) 이전, 잔존 선순위 트렌치의 위험가중치를 <b>SEC-IRBA</b>(감독 \(p\)-factor 포함)로 산출한다(보고서의 "이전분 RW=0" 단순가정 대비 핵심 개선).</p>
+      <div class="eq">$$\Delta RWA_b=\sum_s\big(RWA_{bs}^{\text{pre}}-RWA_{bs}^{\text{retained}}\big)$$</div>
+      <div class="eq">$$\text{자본경감}_b=\Delta RWA_b\times\tau,\qquad \text{연간순효익}_b=\Delta RWA_b\,\tau\, r_E-\underbrace{s\cdot N^{\text{transf}}_b}_{\text{보증수수료}}$$</div>
+      <h4>예상결과</h4>
+      <table>
+        <tr><th>지표</th><th>예상 방향·크기(가설)</th></tr>
+        <tr><td>시스템 RWA 경감</td><td>유의미한 규모(수조 원대), IRB 대형은행에 집중</td></tr>
+        <tr><td>CET1 비율 개선</td><td>발행은행 평균 +0.3 ~ +0.8%p</td></tr>
+        <tr><td>이질성</td><td>RWA밀도·중기업 비중 높은 은행에서 효과 1.5~2배</td></tr>
+      </table>
+    </details>
+    <div class="pagenum">4</div>
+  </section>
+
+  <!-- ===== CH5 — Design 2 ===== -->
+  <section class="chapter" id="c5">
+    <span class="chip">제5장 · 설계2 (인과)</span>
+    <h2>둘째 실험: 빵집의 비밀 🍞</h2>
+    <div class="spread">
+      <div class="art">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="갑옷이 가벼워진 곰이 마을 빵집에 돈을 빌려주는 그림">
+          <rect width="400" height="320" rx="16" fill="#EAF3FB"/>
+          <!-- shop -->
+          <rect x="40" y="150" width="150" height="110" rx="6" fill="#F6D9B0"/>
+          <path d="M30 150 l85 -45 l85 45Z" fill="#E8775A"/>
+          <rect x="70" y="190" width="40" height="70" fill="#A9866B"/>
+          <rect x="125" y="185" width="45" height="40" rx="4" fill="#cdebe7"/>
+          <text x="115" y="135" font-size="13" text-anchor="middle" fill="#fff" font-family="Jua">마을 빵집</text>
+          <!-- coins flow -->
+          <g fill="#F2B441" stroke="#d99a25" stroke-width="2">
+            <circle cx="230" cy="150" r="13"/><circle cx="265" cy="170" r="13"/><circle cx="300" cy="150" r="13"/>
+          </g>
+          <text x="265" y="200" font-size="12" text-anchor="middle" fill="#9b6a2a" font-family="Jua">↗ 신규 대출</text>
+          <!-- light bear -->
+          <g transform="translate(330,235)">
+            <circle cx="0" cy="0" r="30" fill="#A9866B"/>
+            <circle cx="-22" cy="-22" r="10" fill="#A9866B"/><circle cx="22" cy="-22" r="10" fill="#A9866B"/>
+            <circle cx="-9" cy="-3" r="4" fill="#33384D"/><circle cx="9" cy="-3" r="4" fill="#33384D"/>
+            <path d="M-9 10 q9 8 18 0" stroke="#5b4030" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div class="story">
+        <p class="big">"갑옷이 가벼워지니… 빵집 아주머니께 돈을 빌려줄 수 있어!"</p>
+        <p>하지만 부엉이 박사는 신중했어요. <b>"정말 가벼워지면 더 빌려줄까? 그냥 곰이 게을러서 안 빌려준 건 아닐까?"</b></p>
+        <p>그래서 옛날에 갑옷 규칙이 갑자기 바뀐 사건들(버퍼 완화 같은)을 찾아, <b>그때 더 빡빡했던 곰</b>과 <b>여유로웠던 곰</b>의 행동을 비교했답니다. 이게 바로 진짜 인과를 밝히는 실험!</p>
+      </div>
+    </div>
+    <details class="note">
+      <summary>연구노트 — 설계2: 자본→대출 채널 인과추정 <span class="x">펼치기/접기</span></summary>
+      <div class="hyp"><b>H3:</b> 자본여유(capital slack)가 클수록 다음 기 대출증가율이 높다 (\(\beta&gt;0\)).</div>
+      <div class="hyp"><b>H4:</b> 효과는 고위험가중 세그먼트(중소기업·기업)에서 더 크다.</div>
+      <h4>식별전략 (자연실험 + DiD)</h4>
+      <p>코로나 자본버퍼 완화(2020), 바젤 III 버퍼 단계도입, D-SIB 지정을 충격으로 사용. 사전 제약도가 높은 은행을 처치로 본 이중차분:</p>
+      <div class="eq">$$L_{b,t}=\alpha_b+\delta_t+\beta\big(\text{Constraint}_b\times \text{Post}_t\big)+\gamma X_{b,t-1}+\varepsilon_{b,t}$$</div>
+      <p>여기서 \(L\)은 대출증가율(또는 세그먼트별 신규대출), \(\alpha_b\)·\(\delta_t\)는 은행·시점 고정효과. 식별된 자본–대출 탄력성 \(\beta\)가 곧 <b>SRT가 당길 레버의 크기</b>다.</p>
+      <h4>예상결과</h4>
+      <p>제약 1%p 완화 → 대출증가율 +\(k\)%p(\(k&gt;0\)), 중소기업 세그먼트에서 탄력성 최대. 위약검정(가짜 시점)에서 효과 소멸 예상.</p>
+    </details>
+    <div class="pagenum">5</div>
+  </section>
+
+  <!-- ===== CH6 — Design 3 ===== -->
+  <section class="chapter" id="c6">
+    <span class="chip">제6장 · 설계3</span>
+    <h2>셋째 실험: 누가 먼저 마법을 쓸까? 🙋</h2>
+    <div class="spread">
+      <div class="story">
+        <p class="big">"가장 답답한 곰이 가장 먼저 마법을 배우러 오겠지!"</p>
+        <p>부엉이 박사는 곰마다 마법의 <b>이득과 비용</b>을 계산해 봤어요. 갑옷이 최소선에 아슬아슬하게 걸친 곰, 새 갑옷 천 값(증자비용)이 비싼 곰, 위험 도깨비가 많은 곰 — 이런 곰들에게 마법은 <b>분명한 이득(NPV+)</b>이었지요.</p>
+        <p>그래서 누가 줄을 설지 예측할 수 있었답니다.</p>
+      </div>
+      <div class="art">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="마법을 배우러 줄 선 곰들">
+          <rect width="400" height="320" rx="16" fill="#F1F8EE"/>
+          <g>
+            <g transform="translate(90,180)"><circle r="34" fill="#A9866B"/><circle cx="-25" cy="-25" r="11" fill="#A9866B"/><circle cx="25" cy="-25" r="11" fill="#A9866B"/><circle cx="-10" cy="-4" r="4" fill="#33384D"/><circle cx="10" cy="-4" r="4" fill="#33384D"/><path d="M-10 10 q10 8 20 0" stroke="#5b4030" stroke-width="3" fill="none"/></g>
+            <g transform="translate(180,195)" opacity=".85"><circle r="30" fill="#b8966f"/><circle cx="-22" cy="-22" r="9" fill="#b8966f"/><circle cx="22" cy="-22" r="9" fill="#b8966f"/><circle cx="-9" cy="-3" r="3.5" fill="#33384D"/><circle cx="9" cy="-3" r="3.5" fill="#33384D"/></g>
+            <g transform="translate(258,205)" opacity=".7"><circle r="26" fill="#c2a079"/><circle cx="-19" cy="-19" r="8" fill="#c2a079"/><circle cx="19" cy="-19" r="8" fill="#c2a079"/></g>
+          </g>
+          <!-- magic door -->
+          <rect x="300" y="120" width="70" height="130" rx="34" fill="#2E8B8B"/>
+          <circle cx="335" cy="185" r="28" fill="#F2B441" opacity=".6"/>
+          <text x="335" y="190" font-size="18" text-anchor="middle" fill="#fff" font-family="Jua">SRT</text>
+          <text x="200" y="280" font-size="12" text-anchor="middle" fill="#4e7a3c" font-family="Jua">제약 큰 곰부터 줄을 선다</text>
+        </svg>
+      </div>
+    </div>
+    <details class="note">
+      <summary>연구노트 — 설계3: 발행유인·도입 예측 <span class="x">펼치기/접기</span></summary>
+      <div class="hyp"><b>H5:</b> 딜 \(NPV_b&gt;0\) 확률은 (관리버퍼↓, RWA밀도↑, 자기자본비용 \(r_E\)↑, 고RW세그먼트 비중↑)일수록 높다.</div>
+      <h4>방법</h4>
+      <p>은행별 대표 딜의 \(NPV_b=\sum_t \dfrac{\Delta RWA_b\,\tau\,r_E - s\,N^{\text{transf}}_b}{(1+\rho)^t}\) 계산 후, \(\mathbb{1}(NPV_b&gt;0)\)을 은행특성에 회귀(프로빗/로짓), 또는 \(NPV_b\)에 대한 토빗.</p>
+      <h4>예상결과</h4>
+      <p>자본제약 상위분위·IRB·중소기업 대출 비중이 큰 은행이 선도 발행자로 예측. → 정책 도입 시 우선 적용·모니터링 대상 식별에 활용.</p>
+    </details>
+    <div class="pagenum">6</div>
+  </section>
+
+  <!-- ===== CH7 — Design 4 ===== -->
+  <section class="chapter" id="c7">
+    <span class="chip">제7장 · 설계4</span>
+    <h2>넷째 실험: 도깨비는 어디로 갔을까? 🌒</h2>
+    <div class="spread">
+      <div class="art">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="넘겨진 위험 도깨비들이 모이는 곳을 지켜보는 그림">
+          <rect width="400" height="320" rx="16" fill="#ECEAF6"/>
+          <circle cx="320" cy="60" r="26" fill="#F2B441" opacity=".4"/>
+          <!-- network nodes -->
+          <g stroke="#9B6A9E" stroke-width="2" opacity=".7">
+            <line x1="110" y1="130" x2="210" y2="90"/><line x1="210" y1="90" x2="300" y2="150"/>
+            <line x1="110" y1="130" x2="180" y2="220"/><line x1="180" y1="220" x2="300" y2="150"/>
+            <line x1="210" y1="90" x2="180" y2="220"/>
+          </g>
+          <g>
+            <circle cx="110" cy="130" r="22" fill="#8FC3E8"/><text x="110" y="135" font-size="10" text-anchor="middle" fill="#fff" font-family="Jua">은행</text>
+            <circle cx="210" cy="90" r="26" fill="#9B6A9E"/><text x="210" y="95" font-size="10" text-anchor="middle" fill="#fff" font-family="Jua">비은행</text>
+            <circle cx="300" cy="150" r="24" fill="#9B6A9E"/><text x="300" y="155" font-size="10" text-anchor="middle" fill="#fff" font-family="Jua">해외</text>
+            <circle cx="180" cy="220" r="22" fill="#8FC3E8"/><text x="180" y="225" font-size="10" text-anchor="middle" fill="#fff" font-family="Jua">펀드</text>
+          </g>
+          <text x="200" y="285" font-size="12" text-anchor="middle" fill="#6c4570" font-family="Jua">위험은 어디로? 집중되면 위험!</text>
+        </svg>
+      </div>
+      <div class="story">
+        <p class="big">"도깨비가 한 곳에만 모이면, 그게 더 큰 사고가 될 수도 있어!"</p>
+        <p>곰들의 위험 도깨비는 기사단을 거쳐 <b>비은행·먼 나라 투자자</b>에게로 흘러갔어요. 부엉이 박사는 걱정했어요. <b>"폭풍(위기)이 오면, 저 도깨비들이 한꺼번에 날뛰지 않을까?"</b></p>
+        <p>그래서 도깨비가 어디로 얼마나 모이는지 지도를 그리고, 폭풍 시나리오를 돌려봤답니다.</p>
+      </div>
+    </div>
+    <details class="note">
+      <summary>연구노트 — 설계4: 위험이전·시스템리스크 <span class="x">펼치기/접기</span></summary>
+      <div class="hyp"><b>H6:</b> 위험이 비은행·해외로 이전될수록 상호연계성·경기순응성이 높아지고, 스트레스 시 위험 재유입(보호효과 약화) 가능성이 커진다.</div>
+      <h4>방법</h4>
+      <p>투자자 구성 시나리오별 위험이전 네트워크·집중도 지표(HHI), 스트레스 시나리오에서의 트렌치 손실·재유입 경로 시뮬레이션. 자기위험보유(retention)·공시·투자자 적격성 규제 강도를 정책 파라미터로 둔다.</p>
+      <h4>예상결과</h4>
+      <p>적정 투자자 다변화 + retention + 공시 하에서는 시스템리스크 통제 가능. 규제 미흡 시 그림자금융 경로로 위험 집중 → 도입의 <b>전제조건</b>이 규제 프레임워크임을 시사.</p>
+    </details>
+    <div class="pagenum">7</div>
+  </section>
+
+  <!-- ===== CH8 — Conclusion ===== -->
+  <section class="chapter" id="c8">
+    <span class="chip">제8장 · 잠정결론</span>
+    <h2>마을의 결말 🌅</h2>
+    <div class="spread">
+      <div class="story">
+        <p class="big">"갑옷은 가벼워지고, 마을엔 빵 냄새가 가득해졌어요. 단, 도깨비 지도를 늘 살피면서요."</p>
+        <p>SRT 마법은 곰돌이 은행을 가볍게 했고, 그 덕에 마을엔 더 많은 빵집·가게가 생겼어요. 하지만 부엉이 박사는 잊지 않았어요. <b>도깨비가 어디로 가는지 지켜보는 규칙</b>이 있어야 마법이 진짜 축복이 된다는 걸요.</p>
+      </div>
+      <div class="art">
+        <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="행복해진 마을 풍경">
+          <rect width="400" height="320" rx="16" fill="#FFF6E2"/>
+          <circle cx="200" cy="90" r="40" fill="#F2B441" opacity=".55"/>
+          <g fill="#E8775A"><path d="M40 230 l40 -50 l40 50Z"/><path d="M150 235 l45 -60 l45 60Z"/><path d="M270 230 l40 -50 l40 50Z"/></g>
+          <g fill="#F6D9B0"><rect x="50" y="230" width="60" height="50"/><rect x="165" y="235" width="60" height="45"/><rect x="280" y="230" width="60" height="50"/></g>
+          <g fill="#7FB069"><circle cx="20" cy="280" r="22"/><circle cx="380" cy="282" r="24"/></g>
+          <!-- happy bear -->
+          <g transform="translate(200,250)"><circle r="28" fill="#A9866B"/><circle cx="-20" cy="-20" r="9" fill="#A9866B"/><circle cx="20" cy="-20" r="9" fill="#A9866B"/><circle cx="-8" cy="-3" r="3.5" fill="#33384D"/><circle cx="8" cy="-3" r="3.5" fill="#33384D"/><path d="M-10 8 q10 10 20 0" stroke="#5b4030" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+        </svg>
+      </div>
+    </div>
+    <details class="note" open>
+      <summary>연구노트 — 잠정결론 (Tentative Conclusions) <span class="x">펼치기/접기</span></summary>
+      <ul>
+        <li><b>경감효과는 실재하나 이질적이다.</b> 반사실 추정상 의미있는 시스템 자본경감이 기대되며, 효과는 IRB·자본제약·고RW밀도 대형은행에 집중된다(H1·H2).</li>
+        <li><b>자본–대출 채널이 핵심 경로다.</b> 자연실험 기반 \(\beta&gt;0\)이 확인되면 SRT의 대출확대 잠재력이 인과적으로 뒷받침된다(H3·H4).</li>
+        <li><b>도입은 점진적·선별적일 것.</b> 제약 큰 은행이 선도 발행자가 될 것으로 예측, 정책 우선순위 설계 가능(H5).</li>
+        <li><b>전제는 규제 프레임워크.</b> 위험이전의 시스템리스크는 retention·공시·투자자 적격성 규제로 통제 가능하며, 이것이 도입의 선결조건(H6).</li>
+      </ul>
+      <p><b>기여.</b> ① 국내 최초 감독데이터 기반 전수 자본경감 정량화(바젤 SEC 프레임워크 정식 적용), ② 자본–대출 전이의 인과 식별, ③ 도입 우선순위·시스템리스크 가드레일을 잇는 통합 정책설계.</p>
+      <p style="color:var(--soft);font-size:.86rem;">목표 산출물: <b>정책보고서(KIF형) → 학술지 논문 확장</b>의 2단계 트랙. 설계1을 본체로, 설계2를 인과 보강으로 분화.</p>
+    </details>
+    <div class="pagenum">8</div>
+  </section>
+
+  <!-- ===== CH9 — Ethics/limits ===== -->
+  <section class="chapter" id="c9">
+    <span class="chip">제9장 · 한계와 약속</span>
+    <h2>조심 또 조심 🤝</h2>
+    <div class="story">
+      <p class="big">"왕국 모든 은행의 비밀 장부는, 약속을 지키며 다뤄야 해요."</p>
+    </div>
+    <div class="disc">
+      <b>데이터 윤리·실무.</b> 은행별 감독 미시데이터는 기밀 정보다. 본 연구는 (i) <b>공식 데이터 이용 협약</b> 하에서, (ii) 은행 식별정보 <b>비식별화(코드화)</b>, (iii) 필요 시 <b>현장(on-site) 분석</b> 절차를 준수함을 전제로 한다. 비공식 경로의 자료 사용은 연구윤리·게재 적격성 측면에서 배제한다. 공식 접근 확보는 분석의 신뢰도와 재현성을 높인다.
+    </div>
+    <details class="note">
+      <summary>연구노트 — 주요 한계 <span class="x">펼치기/접기</span></summary>
+      <ul>
+        <li><b>반사실의 외적타당성:</b> 트렌치 구조·투자자 스프레드 가정에 민감 → 광범위 민감도분석·시나리오로 보완.</li>
+        <li><b>처치 부재:</b> 사후 인과 임팩트는 메커니즘(자본→대출)으로 우회 추정 → 직접 효과가 아닌 <b>잠재효과</b>로 해석.</li>
+        <li><b>유사 처치 활용:</b> 커버드본드·ABS·NPL 매각 등 기존 자본·자금관리 수단을 analog treatment로 활용해 강건성 보강.</li>
+        <li><b>행동 반응:</b> 도입 후 은행의 위험선호·가격책정 변화는 균형효과로 별도 모형 필요.</li>
+      </ul>
+    </details>
+    <div class="pagenum">9</div>
+  </section>
+
+  <!-- ===== REFERENCES ===== -->
+  <section class="chapter" id="refs">
+    <span class="chip">참고문헌</span>
+    <h2>두고두고 펼쳐볼 책들 📚</h2>
+    <ol class="refs">
+      <li>신용상 (2024), 「중요위험이전(SRT) 증권화와 은행 자본비용 절감 및 자본건전성 제고 효과 분석」, 한국금융연구원 연구보고서 2024-16.</li>
+      <li>신용상 (2024), 「중요위험전가(SRT) 증권화를 통한 국내은행 커버드본드 발행 활성화 지원방안」, 한국금융연구원 미발간자료.</li>
+      <li>KB금융경영연구소 (2024), 「유럽의 중요위험전가(SRT)를 통한 은행대출의 증권화 시장 현황과 시사점」, 미발간자료.</li>
+      <li>박정식·장욱 (2010), 「국내은행 신용손실의 추정」, 경영논집 제44권 종합호, pp.49–74.</li>
+      <li>Boudoul, I.A. &amp; Gonzalez, F. (2022), "An empirical study of securitisations of nonperforming loans," ECB Occasional Paper Series No.292.</li>
+      <li>European Systemic Risk Board (2023; 2024), "The European significant risk transfer securitisation market."</li>
+      <li>European Banking Authority (2014; 2017; 2020), Guidelines &amp; Reports on Significant Credit Risk Transfer (Art. 243/244/245, CRR).</li>
+      <li>Bank for International Settlements (2017), "Basel III: international regulatory framework for banks."</li>
+      <li>International Monetary Fund (2024), "Global Financial Stability Report."</li>
+      <li>Credit Benchmark (2024); Renault, O. (2021), "SRT Chronicles," Structured Credit Investor.</li>
+    </ol>
+    <p style="font-size:.8rem;color:var(--soft);">※ 본 드래프트는 연구설계·가설·예상결과를 정리한 working draft이며, 수치는 추정·예시 가설로 실증 결과가 아닙니다.</p>
+  </section>
+
+  <footer>
+    <div>
+      <span class="pill">🐻 곰돌이 은행 = 자본규제하의 은행</span>
+      <span class="pill">👹 위험 도깨비 = 신용위험</span>
+      <span class="pill">🛡️ 갑옷 = 요구자본(RWA)</span>
+      <span class="pill">🦉 부엉이 = 연구자</span>
+      <span class="pill">⚔️ 기사 = 투자자</span>
+    </div>
+    <p style="margin-top:16px;">
+      「갑옷을 벗은 곰돌이 은행」 · SRT 증권화 연구 드래프트 (동화 그림책 에디션)<br>
+      Working Draft v0.1 · 2026 · 생성형 AI 협업 제작 · 학술·정책 검토용
+    </p>
+  </footer>
+
+</div>
+<script>
+  // progress bar
+  const bar=document.getElementById('bar');
+  addEventListener('scroll',()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;bar.style.width=p+'%';});
+</script>
+</body>
+</html>
