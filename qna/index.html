@@ -365,19 +365,27 @@ function toggleMic(){
   if(!SR){ setCaption('이 브라우저는 음성 인식을 지원하지 않아요. 크롬에서 쓰거나 글로 입력해 주세요.'); return; }
   if(listening){ try{recog&&recog.stop();}catch(e){} return; }
   recog=new SR(); recog.lang='ko-KR'; recog.interimResults=true; recog.maxAlternatives=1; recog.continuous=false;
+  var finalText='', lastShown='', submitted=false;
+  function submitVoice(q){
+    if(submitted) return; q=(q||'').trim(); if(!q){ setCaption('잘 못 들었어요. 다시 말씀해 주세요.'); return; }
+    submitted=true; setCaption('나: '+q); setStatus('speaking');
+    chat(q).then(function(d){ var r=(d&&d.reply)||'잘 못 알아들었어요.'; setCaption('리포: '+r); speak((d&&(d.ttsReply||d.reply))||r,false); })
+      .catch(function(){ var er='연결 문제로 답하지 못했어요. 다시 말씀해 주세요.'; setCaption(er); speak(er,false); });
+  }
   listening=true; setMicUI(true); setCaption('🎤 듣고 있어요… 말씀하세요');
   recog.onresult=function(e){
-    var t=''; for(var i=0;i<e.results.length;i++) t+=e.results[i][0].transcript;
-    setCaption('나: '+t);
-    if(e.results[e.results.length-1].isFinal){
-      var q=t.trim(); listening=false; setMicUI(false);
-      if(q){ setStatus('speaking'); chat(q).then(function(d){ var r=(d&&d.reply)||'잘 못 알아들었어요.'; setCaption(r); speak((d&&(d.ttsReply||d.reply))||r,false); })
-        .catch(function(){ var er='연결에 문제가 있었어요. 다시 말씀해 주세요.'; setCaption(er); speak(er,false); }); }
+    var interim='';
+    for(var i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) finalText+=e.results[i][0].transcript; else interim+=e.results[i][0].transcript;
     }
+    lastShown=(finalText+interim).trim();
+    if(lastShown) setCaption('나: '+lastShown);
   };
-  recog.onerror=function(ev){ listening=false; setMicUI(false); setCaption(ev.error==='not-allowed'?'마이크 권한을 허용해 주세요.':'음성 인식 오류: '+ev.error); };
-  recog.onend=function(){ listening=false; setMicUI(false); };
-  try{ recog.start(); }catch(e){ listening=false; setMicUI(false); }
+  recog.onerror=function(ev){ listening=false; setMicUI(false);
+    setCaption(ev.error==='not-allowed'?'마이크 권한을 허용해 주세요.':(ev.error==='no-speech'?'소리가 안 들렸어요. 🎤를 다시 눌러 말씀해 주세요.':'음성 인식 오류: '+ev.error)); };
+  // 인식이 끝나면(말 멈춤) 최종 문장으로 확실히 제출 — final 이벤트 누락 대비
+  recog.onend=function(){ listening=false; setMicUI(false); submitVoice(finalText || lastShown); };
+  try{ recog.start(); }catch(e){ listening=false; setMicUI(false); setCaption('마이크를 시작할 수 없어요: '+e.message); }
 }
 
 // 아바타 모드: 사용자 질문 → openai-chat.php 두뇌 → 아바타가 발화
