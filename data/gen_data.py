@@ -96,7 +96,7 @@ html=f'''<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
   <tbody>
 {trs}  </tbody>
  </table></div>
- <p class="note"><span class="b m">실측</span> 리스크관리 공시에서 직접 추출(8개) · <span class="b e">추정</span> EAD 추출 불가로 평균위험가중치 42%(실측 8개 평균) 적용(3개) · <span class="b s">표준법</span> 내부등급법 미적용(1개)</p>
+ <p class="note"><span class="b m">실측</span> 리스크관리 공시에서 직접 추출(9개) · <span class="b e">추정</span> EAD 추출 불가로 평균위험가중치 42%(실측 평균) 적용(2개) · <span class="b s">표준법</span> 내부등급법 미적용(1개)</p>
 
  <h2>검증 방법</h2>
  <ul>
@@ -106,7 +106,7 @@ html=f'''<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
  </ul>
  <h2>한계 (점검 시 참고)</h2>
  <ul>
-  <li>부산·경남·광주: 기본내부등급법 승인 은행이나, 리스크관리 보고서 CR6 표의 EAD가 PDF 텍스트로 추출되지 않아 <b>평균위험가중치를 동종(42%) 추정</b>함. 페이지 위치 확인 시 실측 전환 가능.</li>
+  <li>경남·광주: 기본내부등급법 승인 은행이나, 리스크관리 보고서 CR6 표의 EAD가 PDF 텍스트로 추출되지 않아 <b>평균위험가중치를 동종(42%) 추정</b>함. (부산은 30쪽 근방 CR6 표에서 평균RW 48.5%로 2025년말 실측 전환 완료.)</li>
   <li>제주: 내부등급법 미적용(표준방법)으로 기업 IRB 데이터 없음.</li>
   <li>SRT 트렌치 구조(우선손실=예상손실, 메자닌 이전비중)는 거래설계 가정이 일부 포함됨.</li>
  </ul>
