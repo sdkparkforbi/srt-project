@@ -1,0 +1,13 @@
+﻿은행코드,은행명,분류,기업EAD(억원),기업RWA(억원),평균위험가중치,예상손실률,"총위험가중자산(억원,FISIS)","보통주자본비율(%,FISIS)",통일공시_링크
+115,KB국민,실측,1389480,568815,0.409,0.006,2407399,14.91,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=115
+117,신한,실측,1759383,632943,0.36,0.0047,2301064,14.57,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=117
+114,하나,실측,1614543,624946,0.387,0.0061,2051350,16.42,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=114
+112,우리,실측,1507651,584233,0.388,0.0062,1861435,14.13,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=112
+102,IBK기업,실측,2616625,1321566,0.505,0.0113,2640865,11.48,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=102
+103,NH농협,실측,763085,330599,0.433,0.0093,1485726,15.23,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=103
+101,KDB산업,실측,1309097,539442,0.412,0.0064,3585085,13.4,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=101
+104,수협,실측,175317,85043,0.485,0.0116,210878,16.66,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=104
+122,부산,추정,,158736,0.42,0.008,358681,14.61,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=122
+126,경남,추정,,105763,0.42,0.008,246840,12.86,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=126
+123,광주,추정,,55451,0.42,0.008,146805,14.92,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=123
+124,제주,표준법,,,,,37027,13.32,https://www.kfb.or.kr/publicdata/business_regular_view.php?code=124
